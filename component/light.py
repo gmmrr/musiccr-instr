@@ -1,6 +1,6 @@
 class Light():
-    def __init__(self):
-        pass
+    def __init__(self, pin):
+        self.pin = pin
 
     def reset(self):
         pass

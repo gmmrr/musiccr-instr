@@ -10,9 +10,11 @@ class AudioAmp():
         self.light = light
 
     def play(self):
-        self.pin.on()
         print("Speaker:play")
+        self.pin.on()
+        self.light.turn_on
 
     def stop(self):
-        self.pin.off()
         print("Speaker:stop")
+        self.pin.off()
+        self.light.turn_off

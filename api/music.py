@@ -1,10 +1,5 @@
-from component import bluetooth, nfc
-
 class Music():
-    def __init__(self, bluetooth, nfc):
-        self.bt = bluetooth
-        self.nfc = nfc
-
+    def __init__(self):
         self.reset()
 
 
@@ -13,7 +8,6 @@ class Music():
         self.music = None
         self.music_order = []
         self.music_section = []
-
 
 
     # decode
@@ -28,8 +22,19 @@ class Music():
 
 
     # receive music from bt, and receive order from nfc, and save them in section form
-    def receive_music(self):
-        print("Music:Receive")
+    def update(self):
+        '''
+        update music by receiving data from updated bt and nfc
+
+        Args:
+        - bt
+        - nfc
+
+        Returns:
+        -
+        '''
+        print("Music:Update")
+
         # self.music = self.decode_btdata_to_music(self.bt.get_data())
         # self.music_order = self.decode_nfcdata_to_order(self.nfc.get_data())
         # self.msuic_section = self.decode_music_to_section(self.music, self.music_order)

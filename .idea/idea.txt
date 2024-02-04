@@ -5,3 +5,17 @@ Component:
   - Knob
   - LED
   - Speaker
+
+pitch_slider
+bpm_knob
+music
+
+volume_knob
+light
+speaker
+
+
+會有四個 thread:
+更動 pitch, bpm -> 更動 music
+更動 Speaker
+更動 light

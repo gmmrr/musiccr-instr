@@ -3,13 +3,8 @@ from api import music
 from component import knob, light
 
 class AudioAmp():
-    def __init__(self, pin, music, volume_knob, light):
+    def __init__(self, pin):
         self.pin = Pin(pin, Pin.OUT)
-
-        self.music = music
-
-        self.volume_knob = volume_knob
-        self.light = light
 
 
     def play(self, music):
@@ -22,9 +17,6 @@ class AudioAmp():
         - void
         '''
         print("Speaker:Play")
-        # self.pin.on()
-        self.light.turn_on()
-        # music
 
 
     def stop(self):
@@ -33,11 +25,9 @@ class AudioAmp():
         - light: to turn it off
         '''
         print("Speaker:Stop")
-        # self.pin.off()
-        self.light.turn_off()
 
 
-    def update_music(self, music):
+    def update(self, music):
         '''
         Args:
         - music: to update the music
@@ -47,14 +37,3 @@ class AudioAmp():
         '''
         print("Speaker:UpdateMusic")
         # music
-
-    def update_volume(self, volume):
-        '''
-        Args:
-        - volume_knob: to update the volume
-
-        Returns:
-        - void
-        '''
-        print("Speaker:UpdateVolume")
-        # volume_knob

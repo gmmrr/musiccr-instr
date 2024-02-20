@@ -3,9 +3,10 @@ class Music():
         self.reset()
 
 
-    def reset(self):
-        print("Music:Reset")
 
+    def reset(self):
+        self.bpm = 3
+        self.pitch = 3
 
     # receive music from bt, and receive order from nfc, and save them in section form
     def update(self, bpm, pitch):
@@ -19,4 +20,6 @@ class Music():
         Returns:
         -
         '''
-        print("Music:Update")
+
+        self.bpm = bpm
+        self.pitch = pitch

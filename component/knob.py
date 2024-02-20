@@ -1,23 +1,26 @@
 class Knob():
     def __init__(self, pin):
         self.pin = pin
+        self.state = 0
+
+    def update(self):
+        pass
+
+    def get_state(self):
+        return self.state
 
 
 class VolumeKnob(Knob):
     def __init__(self, pin):
         # derive from Slider class
         super().__init__(pin)
-
-    def update(self):
-        print("VolumeKnob:Update")
+        self.state = 50
 
 class BPMKnob(Knob):
     def __init__(self, pin):
         # derive from Slider class
         super().__init__(pin)
-
-    def update(self):
-        print("BPMKnob:Update")
+        self.state = 3
 
 
 

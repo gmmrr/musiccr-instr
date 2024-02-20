@@ -1,6 +1,10 @@
 class Slider():
     def __init__(self, pin):
         self.pin = pin
+        self.state = 3
+
+    def get_state(self):
+        return self.state
 
 class PitchSlider(Slider):
     def __init__(self, pin):

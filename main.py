@@ -1,67 +1,150 @@
-from machine import Pin
+import threading
+import RPi.GPIO as GPIO
 import time
-import _thread
 
 from component import audioamp
-# from component import bluetooth
 from component import knob
 from component import light
-# from component import nfc
 from component import slider
 from api import music
 
-is_working = True
+# from component import bluetooth
+# from component import nfc
+
+is_working = False
+is_volume_updated = False
+is_bpm_updated = False
+is_pitch_updated = False
 is_music_updated = False
 
-pitch_slider = slider.PitchSlider(pin = -1)
-bpm_knob = knob.BPMKnob(pin = -1)
-music= music.Music(pitch_slider = pitch_slider, bpm_knob = bpm_knob)
+val_volume = 0
+val_bpm = 0
+val_pitch = 0
 
-volume_knob = knob.VolumeKnob(pin = -1)
-light = light.Light(pin = -1)
-speaker = audioamp.AudioAmp(pin = -1, music = music, volume_knob = volume_knob, light = light)
+music= music.Music()
+
+
+
+def volume_knob_thread():
+    global is_working
+    global is_volume_updated
+
+    global val_volume
+
+    volume_knob = knob.VolumeKnob(pin = -1)
+
+    while is_working:
+        if volume_knob.update():
+            is_volume_updated = True
+            val_volume = volume_knob.get_state()
+
+
+def bpm_knob_thread():
+    global is_working
+    global is_bpm_updated
+
+    global val_bpm
+
+    bpm_knob = knob.BPMKnob(pin = -1)
+
+    while is_working:
+        if bpm_knob.update():
+            is_bpm_updated = True
+            val_bpm = bpm_knob.get_state()
+
+
+def pitch_slider_thread():
+    global is_working
+    global is_pitch_updated
+
+    global val_pitch
+
+    pitch_slider = slider.PitchSlider(pin = -1)
+
+    while is_working:
+        if pitch_slider.update():
+            is_pitch_updated = True
+            val_pitch = pitch_slider.get_state()
+
 
 def music_thread():
     global is_working
     global is_music_updated
 
-    global pitch_slider
-    global bpm_knob
     global music
 
     while is_working:
-        if pitch_slider.update() or bpm_knob.update():
-            music.update(pitch_slider.get_pitch(), bpm_knob.get_bpm())
+        if is_bpm_updated or is_pitch_updated:
+
+            music.update(bpm=val_bpm, pitch=val_pitch)
             time.sleep(0.2)
+
             is_music_updated = True
+            is_bpm_updated = False
+            is_pitch_updated = False
+
+
+def speaker_thread():
+    global is_working
+    global is_music_updated
+
+    global music
+
+    speaker = audioamp.AudioAmp(pin = -1)
+
+    while is_working:
+        if is_music_updated:
+            speaker.update(music)
+            is_music_updated = False
+
+
+def light_thread():
+    global is_working
+
+    light_left = light.Light(pin = -1)
+    light_right = light.Light(pin = -1)
+
+    while is_working:
+        pass
+
+
+
+
 
 
 def main():
     global is_working
     global is_music_updated
 
-    global volume_knob
-    global light
-    global speaker
-    global music
-
     print("Instrument: Start")
-    _thread.start_new_thread(music_thread, [])
+    t_volume_knob = threading.Thread(target=volume_knob_thread)
+    t_bpm_knob = threading.Thread(target=bpm_knob_thread)
+    t_pitch_slider = threading.Thread(target=pitch_slider_thread)
+    t_music = threading.Thread(target=music_thread)
+    t_speaker = threading.Thread(target=speaker_thread)
+    t_light = threading.Thread(target=light_thread)
+
+    # start threads
+    t_volume_knob.start()
+    t_bpm_knob.start()
+    t_pitch_slider.start()
+    t_music.start()
+    t_speaker.start()
+    t_light.start()
+
+    # wait for threads to finish
+    t_volume_knob.join()
+    t_bpm_knob.join()
+    t_pitch_slider.join()
+    t_music.join()
+    t_speaker.join()
+    t_light.join()
 
     try:
-        while True:
-            speaker.play(music)
-
-            if is_music_updated is True:
-                speaker.update_music(music)
-                is_music_updated = False
-
-            if volume_knob.update():
-                speaker.update_volume(volume_knob.get_volume()
-
+        is_working = True
 
     except KeyboardInterrupt:
-        speaker.stop()
+        is_working = False
         print("Instrument: Finish")
 
     finally:

@@ -86,11 +86,14 @@ def music_thread():
     done
     '''
     global is_working
+
     global is_music_updated
     global is_bpm_updated
     global is_pitch_updated
 
     global music  # put it as global for usage in the future
+    global val_bpm
+    global val_pitch
     global val_music
 
 
@@ -99,7 +102,7 @@ def music_thread():
             if is_bpm_updated or is_pitch_updated:
 
                 val_music = music.update(bpm=val_bpm, pitch=val_pitch)
-                time.sleep(0.2)
+                time.sleep(0.01)
 
                 is_music_updated = True
                 is_bpm_updated = False
@@ -120,7 +123,6 @@ def speaker_thread():
 
     speaker = audioamp.AudioAmp(music=val_music)
     speaker.update(val_music)
-    print("Music Playing: " + val_music)
 
     speaker.play()
 

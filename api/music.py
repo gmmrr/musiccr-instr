@@ -14,8 +14,6 @@ class Music():
         update music by receiving data from updated bt and nfc
 
         Args:
-        - bt
-        - nfc
 
         Returns:
         -
@@ -23,3 +21,5 @@ class Music():
 
         self.bpm = bpm
         self.pitch = pitch
+
+        return f"s{self.bpm}m{self.pitch}.mp3"

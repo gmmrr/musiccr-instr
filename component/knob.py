@@ -70,11 +70,11 @@ class VolumeKnob(Knob):
                 self.current_state -= 1
             self.last_changing_point = section(self.counter/self.deadzone)
 
-        if self.idle_time < 300:
-            print(self.current_state)
+        # if self.idle_time < 300:
+        #     print(self.current_state)
 
 
-        self.clk_last_state = self.clk_state
+        self.clk_last_state = clk_state
         time.sleep(0.01)
 
 
@@ -114,8 +114,8 @@ class BPMKnob(Knob):
                 self.current_state -= 1
             self.last_changing_point = section(self.counter/self.deadzone)
 
-        if self.idle_time < 300:
-            print(self.current_state)
+        # if self.idle_time < 300:
+        #     print(self.current_state)
 
 
         self.clk_last_state = self.clk_state

@@ -86,11 +86,14 @@ def music_thread():
     done
     '''
     global is_working
+
     global is_music_updated
     global is_bpm_updated
     global is_pitch_updated
 
     global music  # put it as global for usage in the future
+    global val_bpm
+    global val_pitch
     global val_music
 
 

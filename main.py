@@ -148,9 +148,10 @@ def play_button_thread():
         if key == ' ':
             is_working = not is_working
             if is_working:
-                print("Instrument: Start")
+                print("PlayButton: Start")
             else:
-                print("Instrument: Stop")
+                print("PlayButton: Stop")
+            print(is_working)
 
 
 

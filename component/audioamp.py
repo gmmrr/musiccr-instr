@@ -24,7 +24,7 @@ class AudioAmp():
         '''
         self.music = music
         # pygame.mixer.music.load(self.music)
-        pygame.mixer.music.load("../src/s3m3.mp3")
+        pygame.mixer.music.load("src/s3m3.mp3")
 
     def play(self):
         '''

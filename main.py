@@ -31,7 +31,7 @@ def volume_knob_thread():
 
     global val_volume
 
-    volume_knob = knob.VolumeKnob(pin = -1)
+    volume_knob = knob.VolumeKnob(clk_pin = -1, dt_pin = -1)
 
     while is_working:
         if volume_knob.update():
@@ -45,7 +45,7 @@ def bpm_knob_thread():
 
     global val_bpm
 
-    bpm_knob = knob.BPMKnob(pin = -1)
+    bpm_knob = knob.BPMKnob(clk_pin = -1, dt_pin = -1)
 
     while is_working:
         if bpm_knob.update():
@@ -105,7 +105,8 @@ def light_thread():
     light_right = light.Light(pin = -1)
 
     while is_working:
-        pass
+        light_left.turn_on()
+        light_right.turn_on()
 
 
 

@@ -1,4 +1,4 @@
-from machine import Pin
+import RPi.GPIO as GPIO
 from api import music
 
 import pygame

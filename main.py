@@ -26,6 +26,9 @@ music= music.Music()
 
 
 def volume_knob_thread():
+    '''
+    done
+    '''
     global is_working
     global is_volume_updated
 
@@ -40,6 +43,9 @@ def volume_knob_thread():
 
 
 def bpm_knob_thread():
+    '''
+    done
+    '''
     global is_working
     global is_bpm_updated
 
@@ -54,6 +60,9 @@ def bpm_knob_thread():
 
 
 def pitch_slider_thread():
+    '''
+    done
+    '''
     global is_working
     global is_pitch_updated
 
@@ -68,6 +77,9 @@ def pitch_slider_thread():
 
 
 def music_thread():
+    '''
+    done
+    '''
     global is_working
     global is_music_updated
 
@@ -85,12 +97,15 @@ def music_thread():
 
 
 def speaker_thread():
+    '''
+
+    '''
     global is_working
     global is_music_updated
 
     global music
 
-    speaker = audioamp.AudioAmp(pin = -1)
+    speaker = audioamp.AudioAmp(pin = -1, music=music)
 
     while is_working:
         if is_music_updated:
@@ -99,14 +114,33 @@ def speaker_thread():
 
 
 def light_thread():
+    '''
+
+    '''
     global is_working
 
     light_left = light.Light(pin = -1)
     light_right = light.Light(pin = -1)
 
-    while is_working:
-        light_left.turn_on()
-        light_right.turn_on()
+    light_left.turn_on()
+    light_right.turn_on()
+
+
+def play_button_thread():
+    '''
+
+    '''
+    global is_working
+
+    while True:
+        key = input("Press Spacebar to start/stop:")
+        if key == ' ':
+            is_working = not is_working
+            if is_working:
+                print("Instrument: Start")
+            else:
+                print("Instrument: Stop")
+
 
 
 
@@ -123,7 +157,8 @@ def main():
     t_pitch_slider = threading.Thread(target=pitch_slider_thread)
     t_music = threading.Thread(target=music_thread)
     t_speaker = threading.Thread(target=speaker_thread)
-    t_light = threading.Thread(target=light_thread)
+    t_light = threading.Thread(target=light_thread)  # actually it just turns on the light once
+    t_play_button = threading.Thread(target=play_button_thread)
 
     # start threads
     t_volume_knob.start()
@@ -132,6 +167,7 @@ def main():
     t_music.start()
     t_speaker.start()
     t_light.start()
+    t_play_button.start()
 
     # wait for threads to finish
     t_volume_knob.join()
@@ -140,21 +176,10 @@ def main():
     t_music.join()
     t_speaker.join()
     t_light.join()
+    t_play_button.join()
 
-    try:
-        is_working = True
+    print("Instrument: End")
 
-    except KeyboardInterrupt:
-        is_working = False
-        print("Instrument: Finish")
-
-    finally:
-        is_working = False
-        is_music_updated = False
-        time.sleep(0.4)  # wait for the thread to finish
-
-
-        print("Instrument: Finish")
 
 if __name__ == "__main__":
     main()

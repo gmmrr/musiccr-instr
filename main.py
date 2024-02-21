@@ -20,7 +20,7 @@ is_music_updated = False
 val_volume = 0
 val_bpm = 0
 val_pitch = 0
-val_music = "s3m3.mp3"
+val_music = "src/s3m3.mp3"
 
 music= music.Music()
 
@@ -111,6 +111,7 @@ def speaker_thread():
     global val_music
 
     speaker = audioamp.AudioAmp(music=val_music)
+    speaker.update(val_music)
 
     speaker.play()
 
@@ -148,9 +149,9 @@ def play_button_thread():
         if key == ' ':
             is_working = not is_working
             if is_working:
-                print("Instrument: Start")
+                print("PlayButton: Start")
             else:
-                print("Instrument: Stop")
+                print("PlayButton: Stop")
 
 
 

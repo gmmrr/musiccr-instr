@@ -12,8 +12,11 @@ def section(num):
 # Main Function
 class Knob():
     def __init__(self, clk_pin, dt_pin):
-        GPIO.setup(clk_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-        GPIO.setup(dt_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        self.clk_pin = clk_pin
+        self.dt_pin = dt_pin
+
+        GPIO.setup(self.clk_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.setup(self.dt_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
         self.reset()
 

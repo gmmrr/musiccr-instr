@@ -73,9 +73,14 @@ class VolumeKnob(Knob):
         # if self.idle_time < 300:
         #     print(self.current_state)
 
-
-        self.clk_last_state = clk_state
-        time.sleep(0.01)
+        if clk_state != self.clk_last_state:
+            self.clk_last_state = clk_state
+            time.sleep(0.01)
+            return True
+        else:
+            self.clk_last_state = clk_state
+            time.sleep(0.01)
+            return False
 
 
 
@@ -118,5 +123,5 @@ class BPMKnob(Knob):
         #     print(self.current_state)
 
 
-        self.clk_last_state = self.clk_state
+        self.clk_last_state = clk_state
         time.sleep(0.01)

@@ -111,6 +111,7 @@ def speaker_thread():
     global val_music
 
     speaker = audioamp.AudioAmp(music=val_music)
+    speaker.update(val_music)
 
     speaker.play()
 
@@ -151,7 +152,6 @@ def play_button_thread():
                 print("PlayButton: Start")
             else:
                 print("PlayButton: Stop")
-            print(is_working)
 
 
 

@@ -1,30 +1,10 @@
 from machine import Pin
 from api import music
-from component import knob, light
 
 class AudioAmp():
-    def __init__(self, pin):
+    def __init__(self, pin, music):
         self.pin = Pin(pin, Pin.OUT)
-
-
-    def play(self, music):
-        '''
-        Args:
-        - light: to turn it on
-        - volume_knob: to set the volume as expectation
-
-        Returns:
-        - void
-        '''
-        print("Speaker:Play")
-
-
-    def stop(self):
-        '''
-        Args:
-        - light: to turn it off
-        '''
-        print("Speaker:Stop")
+        self.music = music
 
 
     def update(self, music):
@@ -35,5 +15,4 @@ class AudioAmp():
         Returns:
         - void
         '''
-        print("Speaker:UpdateMusic")
-        # music
+        self.music = music

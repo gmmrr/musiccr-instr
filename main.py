@@ -17,9 +17,9 @@ is_bpm_updated = False
 is_pitch_updated = False
 is_music_updated = False
 
-val_volume = 0
-val_bpm = 0
-val_pitch = 0
+val_volume = 50
+val_bpm = 3
+val_pitch = 3
 val_music = "src/s3m3.mp3"
 
 music= music.Music()
@@ -87,6 +87,8 @@ def music_thread():
     '''
     global is_working
     global is_music_updated
+    global is_bpm_updated
+    global is_pitch_updated
 
     global music  # put it as global for usage in the future
     global val_music
@@ -104,12 +106,14 @@ def music_thread():
                 is_pitch_updated = False
 
 
+
 def speaker_thread():
     '''
 
     '''
     global is_working
     global is_music_updated
+    global is_volume_updated
 
     global music
     global val_music
@@ -122,9 +126,14 @@ def speaker_thread():
 
     while True:
         while is_working:
+
             if is_music_updated:
                 speaker.update(val_music)
                 is_music_updated = False
+
+            if is_volume_updated:
+                speaker.set_volume(val_volume/100)
+                is_volume_updated = False
 
         speaker.stop()
 
@@ -149,7 +158,7 @@ def play_button_thread():
     global is_working
 
     while True:
-        key = input("Press Spacebar to start/stop:")
+        key = input()
 
         if key == ' ':
             is_working = not is_working

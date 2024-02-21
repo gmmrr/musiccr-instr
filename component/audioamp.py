@@ -7,6 +7,7 @@ import pygame
 class AudioAmp():
     def __init__(self, music):
         self.music = music
+        self.reset()
 
 
     def reset(self):

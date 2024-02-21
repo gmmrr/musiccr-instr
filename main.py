@@ -60,7 +60,7 @@ def bpm_knob_thread():
     print()
     print("?")
 
-    bpm_knob = knob.BPMKnob(clk_pin = 14, dt_pin = 16)
+    bpm_knob = knob.BPMKnob(clk_pin = 16, dt_pin = 18)
 
     while True:
         while is_working:

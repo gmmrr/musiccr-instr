@@ -125,6 +125,7 @@ def speaker_thread():
     speaker = audioamp.AudioAmp(music=val_music)
     is_speaker_working = False
 
+    speaker.update(val_music)
     speaker.play()
 
     while True:

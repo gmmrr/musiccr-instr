@@ -35,6 +35,9 @@ def volume_knob_thread():
 
     global val_volume
 
+    print()
+    print("!")
+
     volume_knob = knob.VolumeKnob(clk_pin = 14, dt_pin = 15)
 
     while True:
@@ -53,6 +56,9 @@ def bpm_knob_thread():
     global is_bpm_updated
 
     global val_bpm
+
+    print()
+    print("?")
 
     bpm_knob = knob.BPMKnob(clk_pin = 23, dt_pin = 24)
 

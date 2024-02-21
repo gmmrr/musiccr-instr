@@ -17,9 +17,9 @@ is_bpm_updated = False
 is_pitch_updated = False
 is_music_updated = False
 
-val_volume = 0
-val_bpm = 0
-val_pitch = 0
+val_volume = 50
+val_bpm = 3
+val_pitch = 3
 val_music = "src/s3m3.mp3"
 
 music= music.Music()
@@ -104,6 +104,7 @@ def music_thread():
                 is_pitch_updated = False
 
 
+
 def speaker_thread():
     '''
 
@@ -123,6 +124,7 @@ def speaker_thread():
     while True:
         while is_working:
             if is_music_updated:
+                print("!")
                 speaker.update(val_music)
                 is_music_updated = False
             if is_volume_updated:

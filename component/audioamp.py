@@ -26,6 +26,8 @@ class AudioAmp():
         '''
         self.music = music
         pygame.mixer.music.load(self.music)
+        print("Music Playing: " + music)
+
 
 
     def play(self):

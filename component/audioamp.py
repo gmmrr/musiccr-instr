@@ -45,7 +45,7 @@ class AudioAmp():
         Returns:
         - void
         '''
-        # pygame.mixer.music.play()
+        pygame.mixer.music.play()
         while pygame.mixer.music.get_busy():
             continue
 

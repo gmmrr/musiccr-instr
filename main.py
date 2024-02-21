@@ -123,7 +123,7 @@ def speaker_thread():
 
     speaker = audioamp.AudioAmp(music=val_music)
     speaker.update(val_music)
-    print("Music Playing: " + val_music)
+    print(f"Music Playing: {val_music}")
 
     speaker.play()
 

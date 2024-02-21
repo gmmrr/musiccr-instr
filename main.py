@@ -26,38 +26,42 @@ music= music.Music()
 
 
 
-# def volume_knob_thread():
-#     '''
-#     done
-#     '''
-#     global is_working
-#     global is_volume_updated
-#
-#     global val_volume
-#
-#     volume_knob = knob.VolumeKnob(clk_pin = -1, dt_pin = -1)
-#
-#     while is_working:
-#         if volume_knob.update():
-#             is_volume_updated = True
-#             val_volume = volume_knob.get_state()
+def volume_knob_thread():
+    '''
+    done
+    '''
+    global is_working
+    global is_volume_updated
+
+    global val_volume
+
+    volume_knob = knob.VolumeKnob(clk_pin = 14, dt_pin = 15)
+
+    while True:
+        while is_working:
+            if volume_knob.update():
+                print("Volume: " + volume_knob.get_state())
+                is_volume_updated = True
+                val_volume = volume_knob.get_state()
 
 
-# def bpm_knob_thread():
-#     '''
-#     done
-#     '''
-#     global is_working
-#     global is_bpm_updated
-#
-#     global val_bpm
-#
-#     bpm_knob = knob.BPMKnob(clk_pin = -1, dt_pin = -1)
-#
-#     while is_working:
-#         if bpm_knob.update():
-#             is_bpm_updated = True
-#             val_bpm = bpm_knob.get_state()
+def bpm_knob_thread():
+    '''
+    done
+    '''
+    global is_working
+    global is_bpm_updated
+
+    global val_bpm
+
+    bpm_knob = knob.BPMKnob(clk_pin = 23, dt_pin = 24)
+
+    while True:
+        while is_working:
+            if bpm_knob.update():
+                print("BPM: " + bpm_knob.get_state())
+                is_bpm_updated = True
+                val_bpm = bpm_knob.get_state()
 
 
 # def pitch_slider_thread():
@@ -163,6 +167,8 @@ def play_button_thread():
 def main():
     global is_working
     global is_music_updated
+
+    GPIO.setmode(GPIO.BOARD)
 
     print("Instrument: Start")
     # t_volume_knob = threading.Thread(target=volume_knob_thread)

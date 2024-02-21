@@ -12,8 +12,8 @@ def section(num):
 # Main Function
 class Knob():
     def __init__(self, clk_pin, dt_pin):
-        self.clk_pin = Pin(clk_pin, Pin.IN, Pin.PULL_DOWN)
-        self.dt_pin = Pin(dt_pin, Pin.IN, Pin.PULL_DOWN)
+        GPIO.setup(clk_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.setup(dt_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
         self.reset()
 
@@ -23,7 +23,7 @@ class Knob():
         self.counter = 0
         self.idle_time = 0
 
-        self.clk_last_state = self.clk_pin.value() # in units of the number(counter)
+        self.clk_last_state = GPIO.input(self.clk_pin) # in units of the number(counter)
         self.current_state = 3 # in units of 1 to 5, and 3 is default
         self.last_changing_point = 0
 
@@ -41,8 +41,8 @@ class VolumeKnob(Knob):
         self.current_state = 50
 
     def update(self):
-        clk_state = self.clk_pin.value()
-        dt_state = self.dt_pin.value()
+        clk_state = GPIO.input(self.clk_pin)
+        dt_state = GPIO.input(self.dt_pin)
 
         if clk_state != self.clk_last_state:
             self.idle_time = 0 # start to change
@@ -85,8 +85,8 @@ class BPMKnob(Knob):
         self.current_state = 3
 
     def update(self):
-        clk_state = self.clk_pin.value()
-        dt_state = self.dt_pin.value()
+        clk_state = GPIO.input(self.clk_pin)
+        dt_state = GPIO.input(self.dt_pin)
 
         if clk_state != self.clk_last_state:
             self.idle_time = 0 # start to change

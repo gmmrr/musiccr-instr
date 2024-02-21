@@ -158,7 +158,7 @@ def play_button_thread():
     global is_working
 
     while True:
-        key = input("Press Spacebar to start/stop:")
+        key = input()
 
         if key == ' ':
             is_working = not is_working

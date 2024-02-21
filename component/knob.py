@@ -47,6 +47,7 @@ class VolumeKnob(Knob):
         clk_state = GPIO.input(self.clk_pin)
         dt_state = GPIO.input(self.dt_pin)
 
+        # Case 1: Change
         if clk_state != self.clk_last_state:
             self.idle_time = 0 # start to change
             if dt_state != clk_state:
@@ -54,6 +55,7 @@ class VolumeKnob(Knob):
             else:
                 self.counter -= 1
 
+        # Case 2: Idle
         else: # deal with the idle time
             self.idle_time += 1
             if self.idle_time == 300:
@@ -61,6 +63,7 @@ class VolumeKnob(Knob):
                 self.last_changing_point = 0
 
 
+        # Deal with the section
         if section(self.counter/self.deadzone) > self.last_changing_point:
             if self.current_state < 100:
                 self.current_state += 1
@@ -74,8 +77,15 @@ class VolumeKnob(Knob):
         #     print(self.current_state)
 
 
-        self.clk_last_state = clk_state
-        time.sleep(0.01)
+        # Return if the state is changing
+        if clk_state != self.clk_last_state:
+            self.clk_last_state = clk_state
+            time.sleep(0.01)
+            return True
+        else:
+            self.clk_last_state = clk_state
+            time.sleep(0.01)
+            return False
 
 
 
@@ -91,6 +101,7 @@ class BPMKnob(Knob):
         clk_state = GPIO.input(self.clk_pin)
         dt_state = GPIO.input(self.dt_pin)
 
+        # Case 1: Change
         if clk_state != self.clk_last_state:
             self.idle_time = 0 # start to change
             if dt_state != clk_state:
@@ -98,6 +109,7 @@ class BPMKnob(Knob):
             else:
                 self.counter -= 1
 
+        # Case 2: Idle
         else: # deal with the idle time
             self.idle_time += 1
             if self.idle_time == 300:
@@ -105,6 +117,7 @@ class BPMKnob(Knob):
                 self.last_changing_point = 0
 
 
+        # Deal with the section
         if section(self.counter/self.deadzone) > self.last_changing_point:
             if self.current_state < 5:
                 self.current_state += 1
@@ -118,5 +131,12 @@ class BPMKnob(Knob):
         #     print(self.current_state)
 
 
-        self.clk_last_state = self.clk_state
-        time.sleep(0.01)
+        # Return if the state is changing
+        if clk_state != self.clk_last_state:
+            self.clk_last_state = clk_state
+            time.sleep(0.01)
+            return True
+        else:
+            self.clk_last_state = clk_state
+            time.sleep(0.01)
+            return False

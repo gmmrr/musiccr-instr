@@ -40,7 +40,7 @@ def volume_knob_thread():
     while True:
         while is_working:
             if volume_knob.update():
-                print("Volume: " + volume_knob.get_state())
+                print(f"Volume: {volume_knob.get_state()}")
                 is_volume_updated = True
                 val_volume = volume_knob.get_state()
 
@@ -59,7 +59,7 @@ def bpm_knob_thread():
     while True:
         while is_working:
             if bpm_knob.update():
-                print("BPM: " + bpm_knob.get_state())
+                print(f"BPM: {bpm_knob.get_state()}")
                 is_bpm_updated = True
                 val_bpm = bpm_knob.get_state()
 

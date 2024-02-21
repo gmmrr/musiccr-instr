@@ -22,13 +22,12 @@ val_bpm = 3
 val_pitch = 3
 val_music = "src/s3m3.mp3"
 
-music= music.Music()
 
 
 
 def volume_knob_thread():
     '''
-    done
+
     '''
     global is_working
     global is_volume_updated
@@ -47,7 +46,7 @@ def volume_knob_thread():
 
 def bpm_knob_thread():
     '''
-    done
+
     '''
     global is_working
     global is_bpm_updated
@@ -66,7 +65,7 @@ def bpm_knob_thread():
 
 # def pitch_slider_thread():
 #     '''
-#     done
+#
 #     '''
 #     global is_working
 #     global is_pitch_updated
@@ -83,7 +82,7 @@ def bpm_knob_thread():
 
 def music_thread():
     '''
-    done
+
     '''
     global is_working
 
@@ -91,11 +90,11 @@ def music_thread():
     global is_bpm_updated
     global is_pitch_updated
 
-    global music  # put it as global for usage in the future
     global val_bpm
     global val_pitch
     global val_music
 
+    music= music.Music()
 
     while True:
         while is_working:
@@ -118,7 +117,6 @@ def speaker_thread():
     global is_music_updated
     global is_volume_updated
 
-    global music
     global val_music
 
     speaker = audioamp.AudioAmp(music=val_music)
@@ -161,7 +159,6 @@ def play_button_thread():
 
     while True:
         key = input()
-
         if key == ' ':
             is_working = not is_working
             if is_working:
@@ -176,12 +173,11 @@ def play_button_thread():
 
 
 def main():
-    global is_working
-    global is_music_updated
-
     GPIO.setmode(GPIO.BOARD)
 
     print("Instrument: Start")
+
+    # Step 1: Create Threads
     t_volume_knob = threading.Thread(target=volume_knob_thread)
     t_bpm_knob = threading.Thread(target=bpm_knob_thread)
     # t_pitch_slider = threading.Thread(target=pitch_slider_thread)
@@ -190,7 +186,7 @@ def main():
     # t_light = threading.Thread(target=light_thread)  # actually it just turns on the light once
     t_play_button = threading.Thread(target=play_button_thread)
 
-    # start threads
+    # Step 2: Start Threads
     t_volume_knob.start()
     t_bpm_knob.start()
     # t_pitch_slider.start()
@@ -199,7 +195,7 @@ def main():
     # t_light.start()
     t_play_button.start()
 
-    # wait for threads to finish
+    # Step 3: Wait for Threads to Finish
     t_volume_knob.join()
     t_bpm_knob.join()
     # t_pitch_slider.join()

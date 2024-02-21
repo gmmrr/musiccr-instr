@@ -15,6 +15,7 @@ class Music():
         update music by receiving data from updated bt and nfc
 
         Args:
+        -
 
         Returns:
         -

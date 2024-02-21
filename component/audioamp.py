@@ -25,8 +25,8 @@ class AudioAmp():
         - void
         '''
         self.music = music
-        pygame.mixer.music.load(self.music)
         print(f"Music Playing: {music}")
+        pygame.mixer.music.load(self.music)
 
 
     def set_volume(self, volume):
@@ -40,8 +40,10 @@ class AudioAmp():
     def play(self):
         '''
         play the music
+
         Args:
         -
+
         Returns:
         - void
         '''

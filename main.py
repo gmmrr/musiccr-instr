@@ -94,13 +94,13 @@ def music_thread():
     global val_pitch
     global val_music
 
-    music= music.Music()
+    music_obj = music.Music()
 
     while True:
         while is_working:
             if is_bpm_updated or is_pitch_updated:
 
-                val_music = music.update(bpm=val_bpm, pitch=val_pitch)
+                val_music = music_obj.update(bpm=val_bpm, pitch=val_pitch)
                 time.sleep(0.01)
 
                 is_music_updated = True

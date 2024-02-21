@@ -1,2 +1,4 @@
-how to play the music
-how to light up the light
+light
+speaker
+slider
+start/stop

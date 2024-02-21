@@ -30,7 +30,7 @@ class AudioAmp():
         current_path = os.path.abspath(__file__)
         print("當前腳本文件的絕對路徑：", current_path)
 
-        pygame.mixer.music.load("src/s3m3.mp3")
+        # pygame.mixer.music.load("src/s3m3.mp3")
 
     def play(self):
         '''

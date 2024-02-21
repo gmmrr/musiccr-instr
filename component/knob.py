@@ -74,7 +74,7 @@ class VolumeKnob(Knob):
             print(self.current_state)
 
 
-        self.clk_last_state = self.clk_state
+        self.clk_last_state = clk_state
         time.sleep(0.01)
 
 

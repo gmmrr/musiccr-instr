@@ -40,8 +40,10 @@ class AudioAmp():
     def play(self):
         '''
         play the music
+
         Args:
         -
+
         Returns:
         - void
         '''

@@ -6,7 +6,7 @@ import pygame
 
 class AudioAmp():
     def __init__(self, pin, val_music):
-        self.pin = Pin(pin, Pin.OUT)
+        # self.pin = Pin(pin, Pin.OUT)
         self.music = val_music
 
 

@@ -22,4 +22,4 @@ class Music():
         self.bpm = bpm
         self.pitch = pitch
 
-        return f"s{self.bpm}m{self.pitch}.mp3"
+        return f"@/src/s{self.bpm}m{self.pitch}.mp3"

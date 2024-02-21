@@ -7,12 +7,13 @@ import pygame
 class AudioAmp():
     def __init__(self, music):
         self.music = music
+        self.volume = 0.5
         self.reset()
 
 
     def reset(self):
         pygame.mixer.init()
-        pygame.mixer.music.set_volume(0.5)
+        pygame.mixer.music.set_volume(self.volume)
 
 
 
@@ -33,8 +34,9 @@ class AudioAmp():
         '''
 
         '''
-        print(f"Speaker: SetVolume {volume}")
-        pygame.mixer.music.set_volume(volume)
+        self.volume = volume
+        print(f"Speaker: SetVolume {self.volume}")
+        pygame.mixer.music.set_volume(self.volume)
 
 
 

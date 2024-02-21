@@ -29,6 +29,14 @@ class AudioAmp():
         print("Music Playing: " + music)
 
 
+    def set_volume(self, volume):
+        '''
+
+        '''
+        print(f"Speaker: SetVolume {volume}")
+        pygame.mixer.music.set_volume(volume)
+
+
 
     def play(self):
         '''

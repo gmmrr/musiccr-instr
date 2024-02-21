@@ -11,14 +11,11 @@ def section(num):
 
 # Main Function
 class Knob():
-    def __init__(self, clk_pin, dt_pin, sw_pin):
+    def __init__(self, clk_pin, dt_pin):
         self.clk_pin = Pin(clk_pin, Pin.IN, Pin.PULL_DOWN)
         self.dt_pin = Pin(dt_pin, Pin.IN, Pin.PULL_DOWN)
-        self.sw_pin = Pin(sw_pin, Pin.IN, Pin.PULL_DOWN)
 
         self.reset()
-
-
 
     def reset(self):
         self.deadzone = 4
@@ -32,19 +29,14 @@ class Knob():
 
 
 
-
-
-    def update(self):
-        pass
-
     def get_state(self):
-        return self.state
+        return self.current_state
 
 
 class VolumeKnob(Knob):
-    def __init__(self, clk_pin, dt_pin, sw_pin):
+    def __init__(self, clk_pin, dt_pin):
         # derive from Slider class
-        super().__init__(clk_pin, dt_pin, sw_pin)
+        super().__init__(clk_pin, dt_pin)
         self.deadzone = 1
         self.current_state = 50
 
@@ -86,9 +78,9 @@ class VolumeKnob(Knob):
 
 
 class BPMKnob(Knob):
-    def __init__(self, clk_pin, dt_pin, sw_pin):
+    def __init__(self, clk_pin, dt_pin):
         # derive from Slider class
-        super().__init__(clk_pin, dt_pin, sw_pin)
+        super().__init__(clk_pin, dt_pin)
         self.deadzone = 4
         self.current_state = 3
 

@@ -87,6 +87,8 @@ def music_thread():
     '''
     global is_working
     global is_music_updated
+    global is_bpm_updated
+    global is_pitch_updated
 
     global music  # put it as global for usage in the future
     global val_music
@@ -111,6 +113,7 @@ def speaker_thread():
     '''
     global is_working
     global is_music_updated
+    global is_volume_updated
 
     global music
     global val_music

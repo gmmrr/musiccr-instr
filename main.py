@@ -38,6 +38,7 @@ def volume_knob_thread():
 
     while True:
         while is_working:
+
             if volume_knob.update():
                 print(f"Volume: {volume_knob.get_state()}")
                 is_volume_updated = True
@@ -57,6 +58,7 @@ def bpm_knob_thread():
 
     while True:
         while is_working:
+
             if bpm_knob.update():
                 print(f"BPM: {bpm_knob.get_state()}")
                 is_bpm_updated = True
@@ -90,19 +92,18 @@ def music_thread():
     global is_bpm_updated
     global is_pitch_updated
 
+    global val_music
     global val_bpm
     global val_pitch
-    global val_music
 
     music_obj = music.Music()
 
     while True:
         while is_working:
-            print("!")
+
             if is_bpm_updated or is_pitch_updated:
 
                 val_music = music_obj.update(bpm=val_bpm, pitch=val_pitch)
-                time.sleep(0.01)
 
                 is_music_updated = True
                 is_bpm_updated = False
@@ -119,14 +120,19 @@ def speaker_thread():
     global is_volume_updated
 
     global val_music
+    global val_volume
 
     speaker = audioamp.AudioAmp(music=val_music)
-    speaker.update(val_music)
+    is_speaker_working = False
 
     speaker.play()
 
     while True:
         while is_working:
+
+            if not is_speaker_working:
+                speaker.resume()
+            is_speaker_working = True
 
             if is_music_updated:
                 speaker.update(val_music)
@@ -136,7 +142,8 @@ def speaker_thread():
                 speaker.set_volume(val_volume/100)
                 is_volume_updated = False
 
-        speaker.stop()
+        speaker.pause()
+
 
 
 # def light_thread():
@@ -159,6 +166,7 @@ def play_button_thread():
     global is_working
 
     while True:
+
         key = input()
         if key == ' ':
             is_working = not is_working

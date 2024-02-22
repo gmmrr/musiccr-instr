@@ -131,10 +131,6 @@ def speaker_thread():
     while True:
         while is_working:
 
-            if not is_speaker_working:
-                speaker.resume()
-            is_speaker_working = True
-
             if is_music_updated:
                 speaker.update(val_music)
                 is_music_updated = False
@@ -143,7 +139,6 @@ def speaker_thread():
                 speaker.set_volume(val_volume/100)
                 is_volume_updated = False
 
-        speaker.pause()
 
 
 

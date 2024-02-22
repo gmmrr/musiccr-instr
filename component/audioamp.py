@@ -56,8 +56,10 @@ class AudioAmp():
         - void
         '''
         pygame.mixer.music.play()
-        while pygame.mixer.music.get_busy():
+        while pygame.mixer.music.get_busy() and :
             continue
+
+    def pause(self)
 
 
     def stop(self):

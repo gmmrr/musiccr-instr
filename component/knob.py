@@ -88,6 +88,7 @@ class BPMKnob(Knob):
         self.current_state = 3
 
     def update(self):
+        print("!")
         clk_state = GPIO.input(self.clk_pin)
         dt_state = GPIO.input(self.dt_pin)
 

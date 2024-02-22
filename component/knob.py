@@ -38,7 +38,6 @@ class Knob():
 
 class VolumeKnob(Knob):
     def __init__(self, clk_pin, dt_pin):
-        # derive from Slider class
         super().__init__(clk_pin, dt_pin)
         self.deadzone = 1
         self.current_state = 50
@@ -75,21 +74,15 @@ class VolumeKnob(Knob):
 
 
         # Return if the state is changing
-        if clk_state != self.clk_last_state:
-            self.clk_last_state = clk_state
-            time.sleep(0.01)
-            return True
-        else:
-            self.clk_last_state = clk_state
-            time.sleep(0.01)
-            return False
+        is_changed = clk_state != self.clk_last_state
+        self.clk_last_state = clk_state
+        return is_changed
 
 
 
 
 class BPMKnob(Knob):
     def __init__(self, clk_pin, dt_pin):
-        # derive from Slider class
         super().__init__(clk_pin, dt_pin)
         self.deadzone = 4
         self.current_state = 3
@@ -126,11 +119,6 @@ class BPMKnob(Knob):
 
 
         # Return if the state is changing
-        if clk_state != self.clk_last_state:
-            self.clk_last_state = clk_state
-            time.sleep(0.01)
-            return True
-        else:
-            self.clk_last_state = clk_state
-            time.sleep(0.01)
-            return False
+        is_changed = clk_state != self.clk_last_state
+        self.clk_last_state = clk_state
+        return is_changed

@@ -130,6 +130,7 @@ def speaker_thread():
 
             if is_music_updated:
                 speaker.update(val_music)
+                time.sleep(0.1)
                 is_music_updated = False
                 threading.Thread(target=speaker.play).start()
 

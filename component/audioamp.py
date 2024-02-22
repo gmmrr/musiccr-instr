@@ -17,7 +17,7 @@ class AudioAmp():
 
         '''
         pygame.mixer.init()
-        pygame.mixer.music.set_volume(0.5)
+        pygame.mixer.music.set_volume(1)
 
 
     def update(self, music):
@@ -33,11 +33,14 @@ class AudioAmp():
         pygame.mixer.music.load(self.music)
         time.sleep(0.05)
 
+        self.play()
+
 
     def set_volume(self, volume):
         '''
 
         '''
+        print(volume)
         pygame.mixer.music.set_volume(volume)
         time.sleep(0.05)
 
@@ -53,6 +56,8 @@ class AudioAmp():
         - void
         '''
         pygame.mixer.music.play()
+        while pygame.mixer.music.get_busy():
+            continue
 
 
     def stop(self):

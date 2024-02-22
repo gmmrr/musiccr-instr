@@ -33,8 +33,6 @@ class AudioAmp():
         pygame.mixer.music.load(self.music)
         time.sleep(0.05)
 
-        self.play()
-
 
     def set_volume(self, volume):
         '''

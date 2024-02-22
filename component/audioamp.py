@@ -57,19 +57,6 @@ class AudioAmp():
         pygame.mixer.music.play()
 
 
-    def resume(self):
-        '''
-
-        '''
-        pygame.mixer.music.unpause()
-
-
-    def pause(self):
-        '''
-
-        '''
-        pygame.mixer.music.pause()
-
     def stop(self):
         '''
 

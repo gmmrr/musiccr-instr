@@ -177,6 +177,11 @@ def main():
 
     print("Instrument: Start")
 
+    # Step 0: Initialize
+    global is_working
+    is_working = True
+
+
     # Step 1: Create Threads
     t_volume_knob = threading.Thread(target=volume_knob_thread)
     t_bpm_knob = threading.Thread(target=bpm_knob_thread)

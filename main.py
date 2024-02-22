@@ -129,8 +129,9 @@ def speaker_thread():
                 speaker.update(val_music)
                 is_music_updated = False
 
+            print(is_volume_updated)
+
             if is_volume_updated:
-                print("!")
                 speaker.set_volume(val_volume/100)
                 is_volume_updated = False
 

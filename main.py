@@ -31,7 +31,6 @@ def volume_knob_thread():
     '''
     global is_working
     global is_volume_updated
-
     global val_volume
 
     volume_knob = knob.VolumeKnob(clk_pin = 8, dt_pin = 10)
@@ -51,7 +50,6 @@ def bpm_knob_thread():
     '''
     global is_working
     global is_bpm_updated
-
     global val_bpm
 
     bpm_knob = knob.BPMKnob(clk_pin = 16, dt_pin = 18)
@@ -71,7 +69,6 @@ def bpm_knob_thread():
 #     '''
 #     global is_working
 #     global is_pitch_updated
-#
 #     global val_pitch
 #
 #     pitch_slider = slider.PitchSlider(pin = -1)
@@ -87,11 +84,9 @@ def music_thread():
 
     '''
     global is_working
-
     global is_music_updated
     global is_bpm_updated
     global is_pitch_updated
-
     global val_music
     global val_bpm
     global val_pitch
@@ -118,12 +113,10 @@ def speaker_thread():
     global is_working
     global is_music_updated
     global is_volume_updated
-
     global val_music
     global val_volume
 
     speaker = audioamp.AudioAmp(music=val_music)
-    is_speaker_working = False
 
     speaker.update(val_music)
     speaker.play()
@@ -139,6 +132,8 @@ def speaker_thread():
                 speaker.set_volume(val_volume/100)
                 is_volume_updated = False
 
+        speaker.stop()
+
 
 
 
@@ -146,8 +141,8 @@ def speaker_thread():
 #     '''
 #
 #     '''
-#     global is_working
 #
+#     global is_working
 #     light_left = light.Light(pin = -1)
 #     light_right = light.Light(pin = -1)
 #
@@ -166,10 +161,8 @@ def play_button_thread():
         key = input()
         if key == ' ':
             is_working = not is_working
-            if is_working:
-                print("PlayButton: Start")
-            else:
-                print("PlayButton: Stop")
+            print("PlayButton: Start" if is_working else "PlayButton: Stop")
+
 
 
 

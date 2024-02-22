@@ -18,20 +18,6 @@ class Knob():
         GPIO.setup(self.clk_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         GPIO.setup(self.dt_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
-        self.reset()
-
-    def reset(self):
-        self.deadzone = 4
-
-        self.counter = 0
-        self.idle_time = 0
-
-        self.clk_last_state = GPIO.input(self.clk_pin) # in units of the number(counter)
-        self.current_state = 3 # in units of 1 to 5, and 3 is default
-        self.last_changing_point = 0
-
-
-
     def get_state(self):
         return self.current_state
 
@@ -40,7 +26,13 @@ class VolumeKnob(Knob):
     def __init__(self, clk_pin, dt_pin):
         super().__init__(clk_pin, dt_pin)
         self.deadzone = 1
+
         self.current_state = 50
+        self.clk_last_state = 50 # in units of the number(counter)
+
+        self.counter = 0
+        self.idle_time = 0
+        self.last_changing_point = 0
 
     def update(self):
         clk_state = GPIO.input(self.clk_pin)
@@ -49,10 +41,7 @@ class VolumeKnob(Knob):
         # Case 1: Change
         if clk_state != self.clk_last_state:
             self.idle_time = 0 # start to change
-            if dt_state != clk_state:
-                self.counter += 1
-            else:
-                self.counter -= 1
+            self.counter += 1 if dt_state != clk_state else -1
 
         # Case 2: Idle
         else: # deal with the idle time
@@ -85,7 +74,13 @@ class BPMKnob(Knob):
     def __init__(self, clk_pin, dt_pin):
         super().__init__(clk_pin, dt_pin)
         self.deadzone = 4
+
         self.current_state = 3
+        self.clk_last_state = 3 # in units of the number(counter)
+
+        self.counter = 0
+        self.idle_time = 0
+        self.last_changing_point = 0
 
     def update(self):
         clk_state = GPIO.input(self.clk_pin)
@@ -94,10 +89,7 @@ class BPMKnob(Knob):
         # Case 1: Change
         if clk_state != self.clk_last_state:
             self.idle_time = 0 # start to change
-            if dt_state != clk_state:
-                self.counter += 1
-            else:
-                self.counter -= 1
+            self.counter += 1 if dt_state != clk_state else -1
 
         # Case 2: Idle
         else: # deal with the idle time

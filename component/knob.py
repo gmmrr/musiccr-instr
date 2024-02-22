@@ -84,7 +84,7 @@ class VolumeKnob(Knob):
 class BPMKnob(Knob):
     def __init__(self, clk_pin, dt_pin):
         super().__init__(clk_pin, dt_pin)
-        self.deadzone = 2
+        self.deadzone = 4
         self.current_state = 3
 
     def update(self):

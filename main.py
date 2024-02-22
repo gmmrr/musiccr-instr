@@ -98,6 +98,7 @@ def music_thread():
 
     while True:
         while is_working:
+            print("!")
             if is_bpm_updated or is_pitch_updated:
 
                 val_music = music_obj.update(bpm=val_bpm, pitch=val_pitch)
@@ -177,10 +178,10 @@ def main():
 
     print("Instrument: Start")
 
+
     # Step 0: Initialize
     global is_working
     is_working = True
-
 
     # Step 1: Create Threads
     t_volume_knob = threading.Thread(target=volume_knob_thread)

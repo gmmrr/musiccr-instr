@@ -99,6 +99,7 @@ def music_thread():
             if is_bpm_updated or is_pitch_updated:
 
                 val_music = music_obj.update(bpm=val_bpm, pitch=val_pitch)
+                time.sleep(0.01)
 
                 is_music_updated = True
                 is_bpm_updated = False

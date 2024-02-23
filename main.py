@@ -150,20 +150,6 @@ def speaker_thread():
 #     light_right.turn_on()
 
 
-def play_button_thread():
-    '''
-
-    '''
-    global is_working
-
-    while True:
-
-        key = input()
-        if key == ' ':
-            is_working = not is_working
-            print("PlayButton: Start" if is_working else "PlayButton: Stop")
-
-
 
 
 
@@ -187,7 +173,6 @@ def main():
     t_music = threading.Thread(target=music_thread)
     t_speaker = threading.Thread(target=speaker_thread)
     # t_light = threading.Thread(target=light_thread)  # actually it just turns on the light once
-    t_play_button = threading.Thread(target=play_button_thread)
 
     # Step 2: Start Threads
     t_volume_knob.start()
@@ -196,7 +181,6 @@ def main():
     t_music.start()
     t_speaker.start()
     # t_light.start()
-    t_play_button.start()
 
     # Step 3: Wait for Threads to Finish
     t_volume_knob.join()
@@ -205,7 +189,6 @@ def main():
     t_music.join()
     t_speaker.join()
     # t_light.join()
-    t_play_button.join()
 
     print("Instrument: End")
 

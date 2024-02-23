@@ -118,7 +118,6 @@ def speaker_thread():
 
     speaker = audioamp.AudioAmp(music=val_music)
 
-    t_speaker_play = threading.Thread(target=speaker.play)
 
     speaker.update(val_music)
 
@@ -130,6 +129,7 @@ def speaker_thread():
                 time.sleep(0.1)
                 is_music_updated = False
 
+                t_speaker_play = threading.Thread(target=speaker.play)
                 t_speaker_play.start()
 
             if is_volume_updated:

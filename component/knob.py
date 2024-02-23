@@ -58,12 +58,12 @@ class BPMKnob(Knob):
         if clk_state != self.clk_last_state:
             self.current_temp_state += 1 if dt_state != clk_state else -1
 
-        if self.current_temp_state > 100:
-            self.current_temp_state = 100
+        if self.current_temp_state > self.deadzone*5:
+            self.current_temp_state = self.deadzone*5
         elif self.current_temp_state < 0:
             self.current_temp_state = 0
 
-        self.current_state = math.ceil(self.current_temp_state/20)
+        self.current_state = math.ceil(self.current_temp_state/self.deadzone)
 
         is_changed = clk_state != self.clk_last_state
         self.clk_last_state = clk_state

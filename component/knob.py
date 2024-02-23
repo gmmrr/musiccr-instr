@@ -2,12 +2,6 @@ import RPi.GPIO as GPIO
 import time
 import math
 
-# Function
-def section(num):
-    if num >= 0:
-        return math.floor(num)
-    else:
-        return math.ceil(num)
 
 # Main Function
 class Knob():
@@ -25,44 +19,22 @@ class Knob():
 class VolumeKnob(Knob):
     def __init__(self, clk_pin, dt_pin):
         super().__init__(clk_pin, dt_pin)
-        self.deadzone = 1
 
         self.current_state = 50
         self.clk_last_state = 50 # in units of the number(counter)
-
-        self.counter = 0
-        self.idle_time = 0
-        self.last_changing_point = 50
 
     def update(self):
         clk_state = GPIO.input(self.clk_pin)
         dt_state = GPIO.input(self.dt_pin)
 
-        # Case 1: Change
         if clk_state != self.clk_last_state:
-            self.idle_time = 0 # start to change
-            self.counter += 1 if dt_state != clk_state else -1
+            self.current_state += 1 if dt_state != clk_state else -1
 
-        # Case 2: Idle
-        else: # deal with the idle time
-            self.idle_time += 1
-            if self.idle_time == 300:
-                self.counter = 0
-                self.last_changing_point = 0
+        if self.current_state > 100:
+            self.current_state = 100
+        elif self.current_state < 0:
+            self.current_state = 0
 
-
-        # Deal with the section
-        if section(self.counter/self.deadzone) > self.last_changing_point:
-            if self.current_state < 100:
-                self.current_state += 1
-            self.last_changing_point = section(self.counter/self.deadzone)
-        elif section(self.counter/self.deadzone) < self.last_changing_point:
-            if self.current_state > 0:
-                self.current_state -= 1
-            self.last_changing_point = section(self.counter/self.deadzone)
-
-
-        # Return if the state is changing
         is_changed = clk_state != self.clk_last_state
         self.clk_last_state = clk_state
         return is_changed
@@ -73,44 +45,26 @@ class VolumeKnob(Knob):
 class BPMKnob(Knob):
     def __init__(self, clk_pin, dt_pin):
         super().__init__(clk_pin, dt_pin)
-        self.deadzone = 2
+        self.deadzone = 4
 
         self.current_state = 3
-        self.clk_last_state = 3 # in units of the number(counter)
-
-        self.counter = 0
-        self.idle_time = 0
-        self.last_changing_point = 3
+        self.current_temp_state = 50
+        self.clk_last_state = 50 # in units of the number(counter)
 
     def update(self):
         clk_state = GPIO.input(self.clk_pin)
         dt_state = GPIO.input(self.dt_pin)
 
-        # Case 1: Change
         if clk_state != self.clk_last_state:
-            self.idle_time = 0 # start to change
-            self.counter += 1 if dt_state != clk_state else -1
+            self.current_temp_state += 1 if dt_state != clk_state else -1
 
-        # Case 2: Idle
-        else: # deal with the idle time
-            self.idle_time += 1
-            if self.idle_time == 300:
-                self.counter = 0
-                self.last_changing_point = 0
+        if self.current_temp_state > 100:
+            self.current_temp_state = 100
+        elif self.current_temp_state < 0:
+            self.current_temp_state = 0
 
+        self.current_state = math.ceil(self.current_temp_state/20)
 
-        # Deal with the section
-        if section(self.counter/self.deadzone) > self.last_changing_point:
-            if self.current_state < 5:
-                self.current_state += 1
-            self.last_changing_point = section(self.counter/self.deadzone)
-        elif section(self.counter/self.deadzone) < self.last_changing_point:
-            if self.current_state > 1:
-                self.current_state -= 1
-            self.last_changing_point = section(self.counter/self.deadzone)
-
-
-        # Return if the state is changing
         is_changed = clk_state != self.clk_last_state
         self.clk_last_state = clk_state
         return is_changed

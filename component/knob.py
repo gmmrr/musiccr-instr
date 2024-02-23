@@ -32,7 +32,7 @@ class VolumeKnob(Knob):
 
         self.counter = 0
         self.idle_time = 0
-        self.last_changing_point = 0
+        self.last_changing_point = 50
 
     def update(self):
         clk_state = GPIO.input(self.clk_pin)
@@ -73,14 +73,14 @@ class VolumeKnob(Knob):
 class BPMKnob(Knob):
     def __init__(self, clk_pin, dt_pin):
         super().__init__(clk_pin, dt_pin)
-        self.deadzone = 1
+        self.deadzone = 2
 
         self.current_state = 3
         self.clk_last_state = 3 # in units of the number(counter)
 
         self.counter = 0
         self.idle_time = 0
-        self.last_changing_point = 0
+        self.last_changing_point = 3
 
     def update(self):
         clk_state = GPIO.input(self.clk_pin)

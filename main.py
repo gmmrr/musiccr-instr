@@ -52,7 +52,7 @@ def bpm_knob_thread():
     global is_bpm_updated
     global val_bpm
 
-    bpm_knob = knob.BPMKnob(clk_pin = 16, dt_pin = 18)
+    bpm_knob = knob.BPMKnob(clk_pin = 36, dt_pin = 38)
 
     while True:
         while is_working:

@@ -165,27 +165,27 @@ def main():
     is_working = True
 
     # Step 1: Create Threads
-    t_volume_knob = threading.Thread(target=volume_knob_thread)
-    t_bpm_knob = threading.Thread(target=bpm_knob_thread)
+    # t_volume_knob = threading.Thread(target=volume_knob_thread)
+    # t_bpm_knob = threading.Thread(target=bpm_knob_thread)
     # t_pitch_slider = threading.Thread(target=pitch_slider_thread)
-    t_music = threading.Thread(target=music_thread)
-    t_speaker = threading.Thread(target=speaker_thread)
+    # t_music = threading.Thread(target=music_thread)
+    # t_speaker = threading.Thread(target=speaker_thread)
     t_light = threading.Thread(target=light_thread)  # actually it just turns on the light once
 
     # Step 2: Start Threads
-    t_volume_knob.start()
-    t_bpm_knob.start()
+    # t_volume_knob.start()
+    # t_bpm_knob.start()
     # t_pitch_slider.start()
-    t_music.start()
-    t_speaker.start()
+    # t_music.start()
+    # t_speaker.start()
     t_light.start()
 
     # Step 3: Wait for Threads to Finish
-    t_volume_knob.join()
-    t_bpm_knob.join()
+    # t_volume_knob.join()
+    # t_bpm_knob.join()
     # t_pitch_slider.join()
-    t_music.join()
-    t_speaker.join()
+    # t_music.join()
+    # t_speaker.join()
     t_light.join()
 
     print("Instrument: End")

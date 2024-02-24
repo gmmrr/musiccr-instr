@@ -146,6 +146,7 @@ def light_thread():
     light_obj = light.Light(pin = 18)
 
     light_obj.turn_on()
+    time.sleep(9)
 
 
 

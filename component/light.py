@@ -6,16 +6,16 @@ class Light():
     def __init__(self, pin):
         self.pin = pin
 
-        self.reset()
+        self.init()
 
 
-    def reset(self):
+    def init(self):
         LED_COUNT = 8
         LED_PIN = self.pin
         LED_FREQ_HZ = 800000
         LED_DMA = 10  # DMA 通道
-        LED_BRIGHTNESS = 255   # 亮度，0-255
-        LED_INVERT = False     # 是否反转信号
+        LED_BRIGHTNESS = 255
+        LED_INVERT = False
 
         self.strip = PixelStrip(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS)
         self.strip.begin()

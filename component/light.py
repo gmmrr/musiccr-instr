@@ -1,12 +1,33 @@
+import time
+from rpi_ws281x import PixelStrip, Color
+
+
 class Light():
     def __init__(self, pin):
         self.pin = pin
 
+        self.reset()
+
+
     def reset(self):
-        pass
+        LED_COUNT = 8
+        LED_PIN = self.pin
+        LED_FREQ_HZ = 800000
+        LED_DMA = 10  # DMA 通道
+        LED_BRIGHTNESS = 255   # 亮度，0-255
+        LED_INVERT = False     # 是否反转信号
+
+        self.strip = PixelStrip(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS)
+        self.strip.begin()
+
 
     def turn_on(self):
         self.state = True
+        for i in range(self.strip.numPixels()):
+            self.strip.setPixelColor(i, Color(255, 255, 255))
+        self.strip.show()
 
     def turn_off(self):
-        self.state = False
+        for i in range(self.strip.numPixels()):
+            self.strip.setPixelColor(i, Color(0, 0, 0))
+        self.strip.show()

@@ -22,7 +22,6 @@ class Light():
 
 
     def turn_on(self):
-        self.state = True
         for i in range(self.strip.numPixels()):
             self.strip.setPixelColor(i, Color(255, 255, 255))
         self.strip.show()

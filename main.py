@@ -143,11 +143,9 @@ def light_thread():
     '''
 
     global is_working
-    light_left = light.Light(pin = 18)
-    light_right = light.Light(pin = 33)
+    light_obj = light.Light(pin = 18)
 
-    light_left.turn_on()
-    light_right.turn_on()
+    light_obj.turn_on()
 
 
 

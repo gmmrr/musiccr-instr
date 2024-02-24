@@ -1,5 +1,5 @@
 import time
-from rpi_ws281x import *
+from rpi_ws281x import Adafruit_NeoPixel, Color
 
 
 class Light():
@@ -10,9 +10,7 @@ class Light():
 
 
     def init(self):
-        from rpi_ws281x import *
 
-        # LED strip configuration:
         self.LED_COUNT = 300 # Number of LED pixels.
         self.LED_PIN = 18 # GPIO pin connected to the pixels (18 uses PWM!).
         # self.LED_PIN = 10 # GPIO pin connected to the pixels (10 uses SPI /dev/spidev0.0).
@@ -22,8 +20,16 @@ class Light():
         self.LED_INVERT = False # True to invert the signal (when using NPN transistor level shift)
         self.LED_CHANNEL = 0 # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
-        strip = Adafruit_NeoPixel(self.LED_COUNT, self.LED_PIN, self.LED_FREQ_HZ, self.LED_DMA, self.LED_INVERT,self.LED_BRIGHTNESS, self.LED_CHANNEL)
-        strip.begin()
+        self.strip = Adafruit_NeoPixel(
+            self.LED_COUNT,
+            self.LED_PIN,
+            self.LED_FREQ_HZ,
+            self.LED_DMA,
+            self.LED_INVERT,
+            self.LED_BRIGHTNESS,
+            self.LED_CHANNEL
+        )
+        self.strip.begin()
 
 
     def turn_on(self):

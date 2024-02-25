@@ -147,6 +147,7 @@ def light_thread():
 
     light_obj.turn_on()
     time.sleep(9)
+    light_obj.turn_off()
 
 
 

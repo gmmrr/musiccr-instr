@@ -1,5 +1,5 @@
 import time
-from rpi_ws281x import *
+from rpi_ws281x import Adafruit_NeoPixel, Color
 
 
 class Light():
@@ -10,9 +10,7 @@ class Light():
 
 
     def init(self):
-        from rpi_ws281x import *
 
-        # LED strip configuration:
         self.LED_COUNT = 300 # Number of LED pixels.
         self.LED_PIN = 18 # GPIO pin connected to the pixels (18 uses PWM!).
         # self.LED_PIN = 10 # GPIO pin connected to the pixels (10 uses SPI /dev/spidev0.0).

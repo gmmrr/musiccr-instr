@@ -19,3 +19,4 @@ class PitchSlider(Slider):
 
     def update(self):
         self.voltage = GPIO.input(self.pin)
+        return True

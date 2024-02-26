@@ -18,5 +18,5 @@ class PitchSlider(Slider):
         super().__init__(pin)
 
     def update(self):
-        self.voltage = GPIO.input(self.pin)
+        self.state = GPIO.input(self.pin)
         return True

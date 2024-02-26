@@ -7,7 +7,7 @@ class Slider():
         self.pin = pin
         self.state = 3
 
-        GPIO.setup(self.pin, GPIO.IN)
+        GPIO.setup(self.pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
     def get_state(self):
         return self.state

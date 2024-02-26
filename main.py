@@ -83,7 +83,7 @@ def pitch_slider_thread():
     global is_pitch_updated
     global val_pitch
 
-    pitch_slider = slider.PitchSlider(pin = 18)
+    pitch_slider = slider.PitchSlider(pin = 2)
 
     counter = 0
 

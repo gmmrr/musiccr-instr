@@ -11,15 +11,16 @@ class Light():
 
     def init(self):
 
+        # Define the basic settings of the LED strip
         self.LED_COUNT = 40 # Number of LED pixels.
-        self.LED_PIN = 18 # GPIO pin connected to the pixels (18 uses PWM!).
-        # self.LED_PIN = 10 # GPIO pin connected to the pixels (10 uses SPI /dev/spidev0.0).
+        self.LED_PIN = self.pin # GPIO pin connected to the pixels (18 uses PWM!).
         self.LED_FREQ_HZ = 800000 # LED signal frequency in hertz (usually 800khz)
         self.LED_DMA = 10 # DMA channel to use for generating signal (try 10)
         self.LED_BRIGHTNESS = 255 # Set to 0 for darkest and 255 for brightest
         self.LED_INVERT = False # True to invert the signal (when using NPN transistor level shift)
         self.LED_CHANNEL = 0 # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
+        # Create NeoPixel and put all settings in
         self.strip = Adafruit_NeoPixel(
             self.LED_COUNT,
             self.LED_PIN,
@@ -29,7 +30,9 @@ class Light():
             self.LED_BRIGHTNESS,
             self.LED_CHANNEL
         )
-        self.strip.begin()
+
+        # Initialize the library
+        self.strip.begin()  # must be called before any operation
 
 
     def turn_on(self):

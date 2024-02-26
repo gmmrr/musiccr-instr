@@ -50,6 +50,10 @@ def volume_knob_thread():
 
 def bpm_knob_thread():
     '''
+    Control the BPM knob
+
+    Args:
+    - bpm_knob: knob.BPMKnob
 
     '''
     global is_working
@@ -69,6 +73,10 @@ def bpm_knob_thread():
 
 def pitch_slider_thread():
     '''
+    Control the pitch slider
+
+    Args:
+    - pitch_slider: slider.PitchSlider
 
     '''
     global is_working
@@ -77,14 +85,21 @@ def pitch_slider_thread():
 
     pitch_slider = slider.PitchSlider(pin = -1)
 
-    while is_working:
-        if pitch_slider.update():
-            is_pitch_updated = True
-            val_pitch = pitch_slider.get_state()
+    while True:
+        while is_working:
+
+            if pitch_slider.update():
+                print(f"Pitch: {pitch_slider.get_state()}")
+                is_pitch_updated = True
+                val_pitch = pitch_slider.get_state()
 
 
 def music_thread():
     '''
+    To change the music
+
+    Args:
+    - Music: api.Music
 
     '''
     global is_working
@@ -112,6 +127,10 @@ def music_thread():
 
 def speaker_thread():
     '''
+    To make the speaker play the music
+
+    Args:
+    -
 
     '''
     global is_working
@@ -143,15 +162,18 @@ def speaker_thread():
 
 def light_thread():
     '''
+    To deal with the light effect
 
     '''
 
     global is_working
     light_obj = light.Light(pin = 18)
 
-    light_obj.turn_on()
-    time.sleep(9)
-    light_obj.turn_off()
+    while True:
+        while is_working:
+            light_obj.turn_on()
+            time.sleep(9)
+        light_obj.turn_off()
 
 
 
@@ -171,27 +193,27 @@ def main():
     is_working = True
 
     # Step 1: Create Threads
-    t_volume_knob = threading.Thread(target=volume_knob_thread)
-    t_bpm_knob = threading.Thread(target=bpm_knob_thread)
-    # t_pitch_slider = threading.Thread(target=pitch_slider_thread)
-    t_music = threading.Thread(target=music_thread)
-    t_speaker = threading.Thread(target=speaker_thread)
-    # t_light = threading.Thread(target=light_thread)  # actually it just turns on the light once
+    # t_volume_knob = threading.Thread(target=volume_knob_thread)
+    # t_bpm_knob = threading.Thread(target=bpm_knob_thread)
+    t_pitch_slider = threading.Thread(target=pitch_slider_thread)
+    # t_music = threading.Thread(target=music_thread)
+    # t_speaker = threading.Thread(target=speaker_thread)
+    # t_light = threading.Thread(target=light_thread)
 
     # Step 2: Start Threads
-    t_volume_knob.start()
-    t_bpm_knob.start()
-    # t_pitch_slider.start()
-    t_music.start()
-    t_speaker.start()
+    # t_volume_knob.start()
+    # t_bpm_knob.start()
+    t_pitch_slider.start()
+    # t_music.start()
+    # t_speaker.start()
     # t_light.start()
 
     # Step 3: Wait for Threads to Finish
-    t_volume_knob.join()
-    t_bpm_knob.join()
-    # t_pitch_slider.join()
-    t_music.join()
-    t_speaker.join()
+    # t_volume_knob.join()
+    # t_bpm_knob.join()
+    t_pitch_slider.join()
+    # t_music.join()
+    # t_speaker.join()
     # t_light.join()
 
     print("Instrument: End")

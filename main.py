@@ -96,8 +96,8 @@ def pitch_slider_thread():
                 val_pitch = pitch_slider.get_state()
                 counter += 1
 
-            if counter is 20:
-                is_working = False
+            # if counter is 20:
+            #     is_working = False
 
 
 def music_thread():

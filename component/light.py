@@ -7,7 +7,10 @@ class Light():
         self.pin = pin
 
         self.init()
+
         self.is_updating = False
+        self.music = "src/s3m3.mp3"
+        self.volume = 50
 
 
     def init(self):
@@ -37,23 +40,26 @@ class Light():
 
 
 
-    def update(self):
-        pass
+    def update(self, music, volume):
+        self.music = music
+        self.volume = volume
+
+        self.is_updating = True
 
 
     def turn_on(self):
-        for i in range(0,self.LED_COUNT):
-            self.strip.setPixelColor(i, Color(255, 255, 255))
-        self.strip.show()
 
-        while True:
-            if self.is_updating:
-                break
-            else:
-                continue
-            break
+        # while True:
+            for i in range(0,self.LED_COUNT):
+                self.strip.setPixelColor(i, Color(255, 255, 255))
+            self.strip.show()
 
-        self.is_updating = False
+        #     if self.is_updating:
+        #         break
+        #
+        # self.is_updating = False
+
+
 
 
 

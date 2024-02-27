@@ -7,6 +7,7 @@ class Light():
         self.pin = pin
 
         self.init()
+        self.is_updating = False
 
 
     def init(self):
@@ -35,10 +36,26 @@ class Light():
         self.strip.begin()  # must be called before any operation
 
 
+
+    def update(self):
+        pass
+
+
     def turn_on(self):
         for i in range(0,self.LED_COUNT):
             self.strip.setPixelColor(i, Color(255, 255, 255))
         self.strip.show()
+
+        while True:
+            if self.is_updating:
+                break
+            else:
+                continue
+            break
+
+        self.is_updating = False
+
+
 
     def turn_off(self):
         for i in range(0,self.LED_COUNT):

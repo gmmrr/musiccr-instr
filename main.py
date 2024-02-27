@@ -186,7 +186,7 @@ def light_thread():
         while is_working:
 
             # if is_music_updated or is_volume_updated:
-                light.update(val_music, val_volume)
+                # light.update(val_music, val_volume)
                 # time.sleep(0.1)
                 # is_music_updated = False
                 # is_volume_updated = False

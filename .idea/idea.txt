@@ -1,4 +1,6 @@
-light
-speaker
 slider
 start/stop
+music-to-led
+nfc
+autostart
+pygame -><- led (sudo)

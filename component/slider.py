@@ -28,7 +28,7 @@ class PitchSlider(Slider):
     def update(self):
         self.state = self.adc.value
 
-        self.bus.write_byte(self.address,self.A0)
+        self.bus.write_byte_data(self.address, self.A0, 0)
         value = self.bus.read_byte(self.address)
         print(f"AOUT: {value}")
 

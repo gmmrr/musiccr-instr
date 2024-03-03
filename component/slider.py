@@ -19,5 +19,4 @@ class PitchSlider(Slider):
 
     def update(self):
         self.state = GPIO.input(self.pin)
-        print(self.state)
         return True

@@ -2,15 +2,23 @@ import threading
 import RPi.GPIO as GPIO
 import time
 
+# ------------------------------
+# import components
+# ------------------------------
 from component import audioamp
 from component import knob
 from component import light
 from component import slider
+from component import playbutton
 from api import music
 
 # from component import bluetooth
 # from component import nfc
 
+
+# ------------------------------
+# init variables
+# ------------------------------
 is_working = False
 is_volume_updated = False
 is_bpm_updated = False
@@ -23,8 +31,22 @@ val_pitch = 3
 val_music = "src/s3m3.mp3"
 
 
+# ------------------------------
+# init pins
+# ------------------------------
+pin_volume_knob_clk = 8
+pin_volume_knob_dt = 10
+pin_bpm_knob_clk = 36
+pin_bpm_knob_dt = 38
+pin_led = 10
+pin_playbutton = 11
 
 
+
+
+# ------------------------------
+# define threads
+# ------------------------------
 def volume_knob_thread():
     '''
     Control the volume knob
@@ -36,8 +58,10 @@ def volume_knob_thread():
     global is_working
     global is_volume_updated
     global val_volume
+    global pin_volume_knob_clk
+    global pin_volume_knob_dt
 
-    volume_knob = knob.VolumeKnob(clk_pin = 8, dt_pin = 10)
+    volume_knob = knob.VolumeKnob(clk_pin = pin_volume_knob_clk, dt_pin = pin_volume_knob_dt)
 
     while True:
         while is_working:
@@ -59,8 +83,10 @@ def bpm_knob_thread():
     global is_working
     global is_bpm_updated
     global val_bpm
+    global pin_bpm_knob_clk
+    global pin_bpm_knob_dt
 
-    bpm_knob = knob.BPMKnob(clk_pin = 36, dt_pin = 38)
+    bpm_knob = knob.BPMKnob(clk_pin = pin_bpm_knob_clk, dt_pin = pin_bpm_knob_dt)
 
     while True:
         while is_working:
@@ -118,7 +144,7 @@ def music_thread():
             if is_bpm_updated or is_pitch_updated:
 
                 val_music = music_obj.update(bpm=val_bpm, pitch=val_pitch)
-                time.sleep(0.01)
+                time.sleep(0.05)
 
                 is_music_updated = True
                 is_bpm_updated = False
@@ -148,7 +174,7 @@ def speaker_thread():
 
             if is_music_updated:
                 speaker.update(val_music)
-                time.sleep(0.1)
+                time.sleep(0.05)
                 is_music_updated = False
 
                 t_speaker_play = threading.Thread(target=speaker.play)
@@ -170,34 +196,56 @@ def light_thread():
     global is_volume_updated
     global val_music
     global val_volume
+    global pin_led
 
 
-    light_obj = light.Light(pin = 18)
-
+    light_obj = light.Light(pin = pin_led)
     light_obj.update(val_music, val_volume)
 
+    # while True:
+    #     while is_working:
+    #
+    #         if is_music_updated or is_volume_updated:
+    #             light.update(val_music, val_volume)
+    #             time.sleep(0.05)
+    #             is_music_updated = False
+    #             is_volume_updated = False
+
+    t_light_turn_on = threading.Thread(target=light_obj.turn_on)
+    t_light_turn_on.start()
+
+    t_light_turn_on = threading.Thread(target=light_obj.turn_on)
+    t_light_turn_on.start()
+
+
+        # light_obj.turn_off()
+
+
+def play_button_thread():
+    '''
+
+    '''
+
+    global is_working
+    global pin_playbutton
+
+    playbutton_obj = playbutton.PlayButton(pin = pin_playbutton)
+
     while True:
-        while is_working:
+        t_play_button_press = threading.Thread(target=playbutton_obj.wait)
+        t_play_button_press.start()
 
-            # if is_music_updated or is_volume_updated:
-                # light.update(val_music, val_volume)
-                # time.sleep(0.1)
-                # is_music_updated = False
-                # is_volume_updated = False
-                #
-            t_light_turn_on = threading.Thread(target=light_obj.turn_on)
-            t_light_turn_on.start()
-
-
-        light_obj.turn_off()
+        is_working = not is_working
+        print(is_working)
 
 
 
 
 
 
-
-
+# ------------------------------
+# main
+# ------------------------------
 def main():
 
     print("Instrument: Start")
@@ -208,28 +256,28 @@ def main():
     is_working = True
 
     # Step 1: Create Threads
-    # t_volume_knob = threading.Thread(target=volume_knob_thread)
-    # t_bpm_knob = threading.Thread(target=bpm_knob_thread)
+    t_volume_knob = threading.Thread(target=volume_knob_thread)
+    t_bpm_knob = threading.Thread(target=bpm_knob_thread)
     t_pitch_slider = threading.Thread(target=pitch_slider_thread)
-    # t_music = threading.Thread(target=music_thread)
-    # t_speaker = threading.Thread(target=speaker_thread)
-    # t_light = threading.Thread(target=light_thread)
+    t_music = threading.Thread(target=music_thread)
+    t_speaker = threading.Thread(target=speaker_thread)
+    t_light = threading.Thread(target=light_thread)
 
     # Step 2: Start Threads
-    # t_volume_knob.start()
-    # t_bpm_knob.start()
+    t_volume_knob.start()
+    t_bpm_knob.start()
     t_pitch_slider.start()
-    # t_music.start()
-    # t_speaker.start()
-    # t_light.start()
+    t_music.start()
+    t_speaker.start()
+    t_light.start()
 
     # Step 3: Wait for Threads to Finish
-    # t_volume_knob.join()
-    # t_bpm_knob.join()
+    t_volume_knob.join()
+    t_bpm_knob.join()
     t_pitch_slider.join()
-    # t_music.join()
-    # t_speaker.join()
-    # t_light.join()
+    t_music.join()
+    t_speaker.join()
+    t_light.join()
 
     print("Instrument: End")
 

@@ -85,8 +85,6 @@ def pitch_slider_thread():
 
     pitch_slider = slider.PitchSlider(pin = 5)
 
-    counter = 0
-
     while True:
         while is_working:
 
@@ -94,10 +92,7 @@ def pitch_slider_thread():
                 print(f"Pitch: {pitch_slider.get_state()}")
                 is_pitch_updated = True
                 val_pitch = pitch_slider.get_state()
-                counter += 1
 
-            # if counter is 20:
-            #     is_working = False
 
 
 def music_thread():

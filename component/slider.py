@@ -14,7 +14,7 @@ class Slider():
         self.A1 = 0x41
         self.A2 = 0x42
         self.A3 = 0x43
-        self.bus = smbus.SMBus(1)
+        self.bus = smbus.SMBus(0)
 
 
     def get_state(self):
@@ -27,9 +27,6 @@ class PitchSlider(Slider):
 
     def update(self):
         self.state = self.adc.value
-
-        print(self.address)
-        print(self.A0)
 
         self.bus.write_byte(self.address, self.A0)
         value = self.bus.read_byte(self.address)

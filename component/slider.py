@@ -30,7 +30,7 @@ class PitchSlider(Slider):
 
         self.bus.write_byte(self.address,self.A0)
         value = self.bus.read_byte(self.address)
-        print("AOUT:%1.3f" %(value*3.3/255))
+        print(f"AOUT: {value}")
 
         time.sleep(0.5)
         return True

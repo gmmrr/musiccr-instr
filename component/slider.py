@@ -12,11 +12,12 @@ class Slider():
     def get_state(self):
         return self.state
 
+
 class PitchSlider(Slider):
     def __init__(self, pin):
-        # derive from Slider class
         super().__init__(pin)
 
     def update(self):
         self.state = GPIO.input(self.pin)
+        time.sleep(0.5)
         return True

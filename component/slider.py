@@ -1,6 +1,6 @@
 from gpiozero import MCP3008
-import time
 import smbus
+import time
 
 
 class Slider():
@@ -28,7 +28,10 @@ class PitchSlider(Slider):
     def update(self):
         self.state = self.adc.value
 
-        self.bus.write_byte_data(self.address, self.A1, 0)
+        print(self.address)
+        print(self.A0)
+
+        self.bus.write_byte(self.address, self.A0)
         value = self.bus.read_byte(self.address)
         print(f"AOUT: {value}")
 

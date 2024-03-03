@@ -18,6 +18,5 @@ class PitchSlider(Slider):
 
     def update(self):
         self.state = self.adc.value
-        self.state = int(self.state * 1023)
         time.sleep(0.5)
         return True

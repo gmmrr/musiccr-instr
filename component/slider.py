@@ -1,5 +1,6 @@
 from gpiozero import MCP3008
 import time
+import smbus
 
 
 class Slider():
@@ -8,9 +9,12 @@ class Slider():
 
         self.adc = MCP3008(channel=0)
 
-        self.adc_1 = MCP3008(channel=1)
-        self.adc_2 = MCP3008(channel=2)
-        self.adc_3 = MCP3008(channel=3)
+        self.address = 0x48
+        self.A0 = 0x40
+        self.A1 = 0x41
+        self.A2 = 0x42
+        self.A3 = 0x43
+        self.bus = smbus.SMBus(1)
 
 
     def get_state(self):
@@ -23,8 +27,10 @@ class PitchSlider(Slider):
 
     def update(self):
         self.state = self.adc.value
-        print(self.adc_1.value)
-        print(self.adc_2.value)
-        print(self.adc_3.value)
+
+        self.bus.write_byte(self.address,self.A0)
+        value = self.bus.read_byte(self.address)
+        print("AOUT:%1.3f" %(value*3.3/255))
+
         time.sleep(0.5)
         return True

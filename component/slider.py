@@ -1,13 +1,12 @@
-import RPi.GPIO as GPIO
+from gpiozero import MCP3008
 import time
 
 
 class Slider():
-    def __init__(self, pin):
-        self.pin = pin
+    def __init__(self):
         self.state = 3
 
-        GPIO.setup(self.pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        self.adc = MCP3008(channel=0)
 
     def get_state(self):
         return self.state
@@ -18,6 +17,6 @@ class PitchSlider(Slider):
         super().__init__(pin)
 
     def update(self):
-        self.state = GPIO.input(self.pin)
+        self.state = self.adc.value
         time.sleep(0.5)
         return True

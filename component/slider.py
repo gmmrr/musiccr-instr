@@ -13,8 +13,8 @@ class Slider():
 
 
 class PitchSlider(Slider):
-    def __init__(self, pin):
-        super().__init__(pin)
+    def __init__(self):
+        super().__init__()
 
     def update(self):
         self.state = self.adc.value

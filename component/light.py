@@ -61,9 +61,6 @@ class Light():
         self.is_updating = False
 
 
-
-
-
     def turn_off(self):
         for i in range(0,self.LED_COUNT):
             self.strip.setPixelColor(i, Color(0, 0, 0))

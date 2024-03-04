@@ -94,42 +94,25 @@ def pitch_slider_thread():
     #             val_pitch = pitch_slider.get_state()
 
 
-    # import smbus
-    # import time
-    #
-    # address = 0x48
-    # A0 = 0x40
-    #
-    # bus = smbus.SMBus(1)
-    #
-    #
-    # while True:
-    #
-    #     bus.write_byte(address,A0)
-    #
-    #     value = bus.read_byte(address)
-    #
-    #     print(value)
-    #
-    #     time.sleep(0.1)
-
-
     import smbus
-    import time
+
+    address = 0x48
+    A0 = 0x40
 
     bus = smbus.SMBus(1)
 
-    aout = 0
 
     while True:
 
-       for a in range(0,4):
-          aout = aout + 1
-          bus.write_byte_data(0x48,0x40 | ((a+1) & 0x03), aout)
-          v = bus.read_byte(0x48)
-          print(v)
+        bus.write_byte(address,A0)
 
-       time.sleep(0.04)
+        value = bus.read_byte(address)
+
+        print(value)
+
+        time.sleep(0.1)
+
+
 
 
 

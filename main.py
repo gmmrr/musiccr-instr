@@ -218,6 +218,9 @@ def light_thread():
     t_light_turn_on = threading.Thread(target=light_obj.turn_on)
     t_light_turn_on.start()
 
+    t_light_turn_on = threading.Thread(target=light_obj.turn_on)
+    t_light_turn_on.start()
+
 
         # light_obj.turn_off()
 

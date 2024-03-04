@@ -6,14 +6,14 @@ class Light():
     def __init__(self, pin):
         self.pin = pin
 
-        self.init()
+        self.reset()
 
         self.is_updating = False
         self.music = "src/s3m3.mp3"
         self.volume = 50
 
 
-    def init(self):
+    def reset(self):
 
         # Define the basic settings of the LED strip
         self.LED_COUNT = 40 # Number of LED pixels.
@@ -49,16 +49,16 @@ class Light():
 
     def turn_on(self):
 
-        while True:
+        # while True:
             for i in range(0,self.LED_COUNT):
                 self.strip.setPixelColor(i, Color(255, 255, 255))
             self.strip.show()
             print("light on")
 
-            if self.is_updating:
-                break
-
-        self.is_updating = False
+        #     if self.is_updating:
+        #         break
+        #
+        # self.is_updating = False
 
 
     def turn_off(self):

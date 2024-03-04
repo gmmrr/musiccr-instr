@@ -1,6 +1,5 @@
-slider
+pygame -><- led (sudo)
+autostart
 start/stop
 music-to-led
 nfc
-autostart
-pygame -><- led (sudo)

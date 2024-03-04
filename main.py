@@ -125,14 +125,14 @@ def pitch_slider_thread():
     curses.noecho()
     curses.cbreak()
 
-    stdscr.addstr(16, 0, "Resistor")
+    stdscr.addstr(12, 0, "Resistor")
 
     stdscr.nodelay(1)
 
     while True:
        bus.write_byte(0x48, 0x40)
        v = bus.read_byte(0x48)
-       stdscr.addstr(16, 10, str(v) + ' ')
+       stdscr.addstr(12, 10, str(v) + ' ')
        stdscr.refresh()
        time.sleep(0.04)
 

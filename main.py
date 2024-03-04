@@ -79,43 +79,19 @@ def pitch_slider_thread():
     - pitch_slider: slider.PitchSlider
 
     '''
-    # global is_working
-    # global is_pitch_updated
-    # global val_pitch
-    #
-    # pitch_slider = slider.PitchSlider()
-    #
-    # while True:
-    #     while is_working:
-    #
-    #         if pitch_slider.update():
-    #             print(f"Pitch: {pitch_slider.get_state()}")
-    #             is_pitch_updated = True
-    #             val_pitch = pitch_slider.get_state()
+    global is_working
+    global is_pitch_updated
+    global val_pitch
 
-
-    import smbus
-
-    address = 0x48
-    A0 = 0x40
-
-    bus = smbus.SMBus(1)
-    bus.write_byte(address,0)
-
+    pitch_slider = slider.PitchSlider()
 
     while True:
+        while is_working:
 
-
-        value = bus.read_byte(address)
-
-        print(value)
-
-        time.sleep(0.1)
-
-
-
-
-
+            if pitch_slider.update():
+                print(f"Pitch: {pitch_slider.get_state()}")
+                is_pitch_updated = True
+                val_pitch = pitch_slider.get_state()
 
 
 def music_thread():

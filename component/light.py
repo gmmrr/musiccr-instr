@@ -54,10 +54,10 @@ class Light():
                 self.strip.setPixelColor(i, Color(255, 255, 255))
             self.strip.show()
 
-            if self.is_updating:
-                break
+            # if self.is_updating:
+            #     break
 
-        self.is_updating = False
+        # self.is_updating = False
 
 
 

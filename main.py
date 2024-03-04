@@ -94,24 +94,57 @@ def pitch_slider_thread():
     #             val_pitch = pitch_slider.get_state()
 
 
-    import smbus
-    import time
+    # import smbus
+    # import time
+    #
+    # address = 0x48
+    # A0 = 0x40
+    #
+    # bus = smbus.SMBus(1)
+    #
+    #
+    # while True:
+    #
+    #     bus.write_byte(address,A0)
+    #
+    #     value = bus.read_byte(address)
+    #
+    #     print(value)
+    #
+    #     time.sleep(0.1)
 
-    address = 0x48
-    A0 = 0x40
+
+    import time
+    import curses
+    import smbus
 
     bus = smbus.SMBus(1)
 
+    stdscr = curses.initscr()
+
+    curses.noecho()
+    curses.cbreak()
+
+    stdscr.addstr(16, 0, "Resistor")
+
+    stdscr.nodelay(1)
 
     while True:
+       bus.write_byte(0x48, 0x40)
+       v = bus.read_byte(0x48)
+       stdscr.addstr(16, 10, str(v) + ' ')
+       stdscr.refresh()
+       time.sleep(0.04)
 
-        bus.write_byte(address,A0)
+       c = stdscr.getch()
 
-        value = bus.read_byte(address)
+       if c != curses.ERR:
+           break
 
-        print(value)
+    curses.nocbreak()
+    curses.echo()
 
-        time.sleep(0.1)
+    curses.endwin()
 
 
 

@@ -49,15 +49,15 @@ class Light():
 
     def turn_on(self):
 
-        # while True:
+        while True:
             for i in range(0,self.LED_COUNT):
                 self.strip.setPixelColor(i, Color(255, 255, 255))
             self.strip.show()
 
-        #     if self.is_updating:
-        #         break
-        #
-        # self.is_updating = False
+            if self.is_updating:
+                break
+
+        self.is_updating = False
 
 
 

@@ -124,6 +124,7 @@ def music_thread():
 
     '''
     global is_working
+
     global is_music_updated
     global is_bpm_updated
     global is_pitch_updated
@@ -141,6 +142,9 @@ def music_thread():
                 val_music = music_obj.update(bpm=val_bpm, pitch=val_pitch)
                 time.sleep(0.01)
 
+                is_music_updated = True
+                is_bpm_updated = False
+                is_pitch_updated = False
                 is_music_updated = True
                 is_bpm_updated = False
                 is_pitch_updated = False
@@ -220,6 +224,8 @@ def light_thread():
 
 
 def main():
+
+    GPIO.setmode(GPIO.BOARD)
 
     print("Instrument: Start")
 

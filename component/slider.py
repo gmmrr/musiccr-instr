@@ -44,7 +44,7 @@ class PitchSlider(Slider):
         else:
             self.state = 5
 
-        time.sleep(0.1)
+        time.sleep(0.05)
 
         if self.state != self.last_state:
             self.last_state = self.state

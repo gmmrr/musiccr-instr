@@ -114,9 +114,8 @@ def pitch_slider_thread():
     #     time.sleep(0.1)
 
 
-    import time
-    import curses
     import smbus
+    import curses
 
     bus = smbus.SMBus(1)
 
@@ -125,21 +124,33 @@ def pitch_slider_thread():
     curses.noecho()
     curses.cbreak()
 
-    stdscr.addstr(12, 0, "Resistor")
+    aout = 0
+
+    stdscr.addstr(10, 0, "Brightness")
+    stdscr.addstr(12, 0, "Temperature")
+    stdscr.addstr(14, 0, "AOUT->AIN2")
+    stdscr.addstr(16, 0, "Resistor")
 
     stdscr.nodelay(1)
 
     while True:
-       bus.write_byte(0x48, 0x40)
-       v = bus.read_byte(0x48)
-       stdscr.addstr(12, 10, str(v) + ' ')
+
+       for a in range(0,4):
+          aout = aout + 1
+          bus.write_byte_data(0x48,0x40 | ((a+1) & 0x03), aout)
+          v = bus.read_byte(0x48)
+          hashes = v / 4
+          spaces = 64 - hashes
+          stdscr.addstr(10+a*2, 12, str(v) + ' ')
+          stdscr.addstr(10+a*2, 16, '#' * hashes + ' ' * spaces )
+
        stdscr.refresh()
        time.sleep(0.04)
 
        c = stdscr.getch()
 
        if c != curses.ERR:
-           break
+          break
 
     curses.nocbreak()
     curses.echo()

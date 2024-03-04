@@ -240,6 +240,7 @@ def play_button_thread():
         t_play_button_press.start()
 
         is_working = not is_working
+        print(is_working)
 
 
 

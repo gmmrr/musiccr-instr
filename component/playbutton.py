@@ -5,14 +5,11 @@ class PlayButton():
     def __init__(self, pin):
         self.pin = pin
 
-        self.state = True
-
         GPIO.setup(self.pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 
-    def update(self):
-        if GPIO.input(self.pin) == GPIO.LOW:
-            self.state = not self.state
-            time.sleep(0.05)
+    def wait(self):
 
-        return self.state
+        while True:
+            if GPIO.input(self.pin) == GPIO.LOW:
+                break

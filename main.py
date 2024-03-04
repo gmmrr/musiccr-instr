@@ -204,7 +204,6 @@ def light_thread():
 
 
     light_obj = light.Light(pin = pin_led)
-
     light_obj.update(val_music, val_volume)
 
     while True:
@@ -212,7 +211,7 @@ def light_thread():
 
             if is_music_updated or is_volume_updated:
                 light.update(val_music, val_volume)
-                time.sleep(0.1)
+                time.sleep(0.05)
                 is_music_updated = False
                 is_volume_updated = False
 
@@ -234,7 +233,11 @@ def play_button_thread():
     playbutton_obj = playbutton.PlayButton(pin = pin_playbutton)
 
     while True:
-        is_working = playbutton_obj.update()
+        t_play_button_press = threading.Thread(target=playbutton_obj.wait)
+        t_play_button_press.start()
+
+        is_working = not is_working
+
 
 
 

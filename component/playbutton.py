@@ -13,6 +13,6 @@ class PlayButton():
     def update(self):
         if GPIO.input(self.pin) == GPIO.LOW:
             self.state = not self.state
-            time.sleep(0.2)
+            time.sleep(0.1)
 
         return self.state

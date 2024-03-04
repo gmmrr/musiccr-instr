@@ -53,6 +53,7 @@ class Light():
             for i in range(0,self.LED_COUNT):
                 self.strip.setPixelColor(i, Color(255, 255, 255))
             self.strip.show()
+            print("light on")
 
             # if self.is_updating:
             #     break

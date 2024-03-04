@@ -210,12 +210,12 @@ def light_thread():
     while True:
         while is_working:
 
-            # if is_music_updated or is_volume_updated:
-                # light.update(val_music, val_volume)
-                # time.sleep(0.1)
-                # is_music_updated = False
-                # is_volume_updated = False
-                #
+            if is_music_updated or is_volume_updated:
+                light.update(val_music, val_volume)
+                time.sleep(0.1)
+                is_music_updated = False
+                is_volume_updated = False
+
             t_light_turn_on = threading.Thread(target=light_obj.turn_on)
             t_light_turn_on.start()
 

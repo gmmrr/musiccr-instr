@@ -55,10 +55,10 @@ class Light():
             self.strip.show()
             print("light on")
 
-            # if self.is_updating:
-            #     break
+            if self.is_updating:
+                break
 
-        # self.is_updating = False
+        self.is_updating = False
 
 
 

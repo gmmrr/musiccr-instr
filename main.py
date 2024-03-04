@@ -38,7 +38,7 @@ pin_volume_knob_clk = 8
 pin_volume_knob_dt = 10
 pin_bpm_knob_clk = 36
 pin_bpm_knob_dt = 38
-pin_led = 18
+pin_led = 10
 pin_playbutton = 11
 
 

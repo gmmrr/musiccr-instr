@@ -145,7 +145,7 @@ def music_thread():
             if is_bpm_updated or is_pitch_updated:
 
                 val_music = music_obj.update(bpm=val_bpm, pitch=val_pitch)
-                time.sleep(0.01)
+                time.sleep(0.05)
 
                 is_music_updated = True
                 is_bpm_updated = False
@@ -178,7 +178,7 @@ def speaker_thread():
 
             if is_music_updated:
                 speaker.update(val_music)
-                time.sleep(0.1)
+                time.sleep(0.05)
                 is_music_updated = False
 
                 t_speaker_play = threading.Thread(target=speaker.play)

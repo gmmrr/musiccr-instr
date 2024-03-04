@@ -12,6 +12,8 @@ class Slider():
 
         self.set_breakpnt()
 
+        self.last_state = self.state
+
 
     def set_breakpnt(self):
         self.breakpnt_1 = 51
@@ -43,4 +45,9 @@ class PitchSlider(Slider):
             self.state = 5
 
         time.sleep(0.1)
-        return True
+
+        if self.state != self.last_state:
+            self.last_state = self.state
+            return True
+        else:
+            return False

@@ -22,6 +22,8 @@ class PitchSlider(Slider):
         super().__init__()
 
     def update(self):
-        self.state = self.bus.read_byte(self.address)
+        value = self.bus.read_byte(self.address)
+        self.state = -(-(value // 51))
+
         time.sleep(0.1)
         return True

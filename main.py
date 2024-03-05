@@ -63,6 +63,7 @@ def volume_knob_thread():
 
     volume_knob = knob.VolumeKnob(clk_pin = pin_volume_knob_clk, dt_pin = pin_volume_knob_dt)
 
+
     while True:
         while is_working:
 

@@ -51,7 +51,7 @@ class Light():
 
         # while True:
             for i in range(0,self.LED_COUNT):
-                self.strip.setPixelColor(i, Color(255, 255, 255))
+                self.strip.setPixelColor(i, Color(100, 100, 100))
             self.strip.show()
             print("light on")
 

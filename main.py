@@ -61,8 +61,7 @@ def volume_knob_thread():
     global pin_volume_knob_clk
     global pin_volume_knob_dt
 
-    # volume_knob = knob.VolumeKnob(clk_pin = pin_volume_knob_clk, dt_pin = pin_volume_knob_dt)
-    volume_knob = knob.VolumeKnob(clk_pin = 8, dt_pin = 10)
+    volume_knob = knob.VolumeKnob(clk_pin = pin_volume_knob_clk, dt_pin = pin_volume_knob_dt)
 
 
     while True:

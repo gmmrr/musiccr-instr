@@ -265,7 +265,7 @@ def main():
     t_pitch_slider = threading.Thread(target=pitch_slider_thread)
     t_music = threading.Thread(target=music_thread)
     t_speaker = threading.Thread(target=speaker_thread)
-    t_light = threading.Thread(target=light_thread)
+    # t_light = threading.Thread(target=light_thread)
 
     # Step 2: Start Threads
     t_volume_knob.start()
@@ -273,7 +273,7 @@ def main():
     t_pitch_slider.start()
     t_music.start()
     t_speaker.start()
-    t_light.start()
+    # t_light.start()
 
     # Step 3: Wait for Threads to Finish
     t_volume_knob.join()
@@ -281,7 +281,7 @@ def main():
     t_pitch_slider.join()
     t_music.join()
     t_speaker.join()
-    t_light.join()
+    # t_light.join()
 
     print("Instrument: End")
 

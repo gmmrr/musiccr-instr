@@ -24,4 +24,4 @@ class Music():
         self.bpm = bpm
         self.pitch = pitch
 
-        return f"Documents/GitHub/musiccr-instr/src/s{self.bpm}m{self.pitch}.mp3"
+        return f"/home/gmmrr/Documents/GitHub/musiccr-instr/src/s{self.bpm}m{self.pitch}.mp3"

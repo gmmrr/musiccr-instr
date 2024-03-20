@@ -13,7 +13,7 @@ from component import playbutton
 from api import music
 
 # from component import bluetooth
-# from component import nfc
+from component import nfc
 
 
 # ------------------------------
@@ -240,6 +240,18 @@ def play_button_thread():
         print(is_working)
 
 
+def nfc_thread():
+    '''
+    '''
+    global is_working
+    nfc_obj = nfc.NFC()
+    while True:
+        while is_working:
+            nfc_obj.read()
+            print("NFC: Detected")
+            time.sleep(0.5)
+
+
 
 
 
@@ -257,28 +269,34 @@ def main():
     is_working = True
 
     # Step 1: Create Threads
-    t_volume_knob = threading.Thread(target=volume_knob_thread)
-    t_bpm_knob = threading.Thread(target=bpm_knob_thread)
-    t_pitch_slider = threading.Thread(target=pitch_slider_thread)
-    t_music = threading.Thread(target=music_thread)
-    t_speaker = threading.Thread(target=speaker_thread)
-    t_light = threading.Thread(target=light_thread)
+    # t_volume_knob = threading.Thread(target=volume_knob_thread)
+    # t_bpm_knob = threading.Thread(target=bpm_knob_thread)
+    # t_pitch_slider = threading.Thread(target=pitch_slider_thread)
+    # t_music = threading.Thread(target=music_thread)
+    # t_speaker = threading.Thread(target=speaker_thread)
+    # t_light = threading.Thread(target=light_thread)
+    # t_play_button = threading.Thread(target=play_button_thread)
+    t_nfc = threading.Thread(target=nfc_thread)
 
     # Step 2: Start Threads
-    t_volume_knob.start()
-    t_bpm_knob.start()
-    t_pitch_slider.start()
-    t_music.start()
-    t_speaker.start()
-    t_light.start()
+    # t_volume_knob.start()
+    # t_bpm_knob.start()
+    # t_pitch_slider.start()
+    # t_music.start()
+    # t_speaker.start()
+    # t_light.start()
+    # t_play_button.start()
+    t_nfc.start()
 
     # Step 3: Wait for Threads to Finish
-    t_volume_knob.join()
-    t_bpm_knob.join()
-    t_pitch_slider.join()
-    t_music.join()
-    t_speaker.join()
-    t_light.join()
+    # t_volume_knob.join()
+    # t_bpm_knob.join()
+    # t_pitch_slider.join()
+    # t_music.join()
+    # t_speaker.join()
+    # t_light.join()
+    # t_play_button.join()
+    t_nfc.join()
 
     print("Instrument: End")
 

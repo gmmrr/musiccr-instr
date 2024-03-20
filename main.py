@@ -5,6 +5,7 @@ import time
 from mfrc522 import MFRC522
 
 
+
 # ------------------------------
 # import components
 # ------------------------------
@@ -37,12 +38,12 @@ val_music = "src/s3m3.mp3"
 # ------------------------------
 # init pins
 # ------------------------------
-pin_volume_knob_clk = 8
-pin_volume_knob_dt = 10
-pin_bpm_knob_clk = 36
-pin_bpm_knob_dt = 38
-pin_led = 10
-pin_playbutton = 11
+# pin_volume_knob_clk = 8
+# pin_volume_knob_dt = 10
+# pin_bpm_knob_clk = 36
+# pin_bpm_knob_dt = 38
+# pin_led = 10
+# pin_playbutton = 11
 
 
 
@@ -257,28 +258,47 @@ def nfc_thread():
 
 
 def read_rfid():
+
+    print("0")
+
     reader = MFRC522()
 
-    try:
-        while True:
-            # 掃描RFID卡片
-            (status, TagType) = reader.MFRC522_Request(reader.PICC_REQIDL)
+    print("1")
+    status =  None
+    while status != reader.MI_OK:
+        (status, TagType) = reader.Request(reader.PICC_REQIDL)
+        if status == reader.MI_OK:
+            print("Connection Success!")
 
-            # 如果發現卡片，讀取卡片的UID
-            if status == reader.MI_OK:
-                (status, uid) = reader.MFRC522_Anticoll()
+    (status, uid) = reader.Anticoll()
+    if status == reader.MI_OK:
+        print(uid)
 
-                # 將UID轉換為十六進制字符串
-                uid_str = ''.join([str(i) for i in uid])
+    reader.SelectTag(uid)
 
-                # 返回RFID卡片的UID
-                return uid_str
+    print("2")
 
-    finally:
-        # 清理GPIO資源
-        GPIO.cleanup()
+    trailer_block = 11
+    #This is the default key for MIFARE Cards
+    key = [0xFF, 0xFF, 0xFF , 0xFF, 0xFF, 0xFF]
+    status = reader.Authenticate(
+            reader.PICC_AUTHENT1A, trailer_block , key, uid)
 
+    block_nums = [8, 9, 10]
+    data = []
+    for block_num in block_nums:
+        block_data = reader.ReadTag(block_num)
+        print(block_data)
+        if block_data:
+            data += block_data
+    if data:
+        text_read = ''.join(chr(i) for i in data)
 
+    reader.StopAuth()
+
+    print(text_read)
+
+    print("3")
 
 
 
@@ -326,14 +346,11 @@ def main():
 
     print("Instrument: End")
 
+    read_rfid()
 
-    while True:
-        # 讀取RFID卡片的ID
-        card_id = read_rfid()
-        print("RFID Card ID:", card_id)
 
 
 
 if __name__ == "__main__":
-    time.sleep(10)
+    time.sleep(3)
     main()

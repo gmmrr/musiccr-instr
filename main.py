@@ -330,8 +330,6 @@ def main():
     print("Instrument: Start")
 
     # Step 0: Initialize
-    GPIO.cleanup()
-    GPIO.setwarnings(False)
     GPIO.setmode(GPIO.BOARD)
     global is_working
     is_working = True

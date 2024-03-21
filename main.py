@@ -261,7 +261,7 @@ def read_rfid():
 
     try:
         print("test")
-        while True:
+        for _ in range(10):
             # text = "hello_world"
             # id, text_written = reader.write(text)
             # print(f"ID: {id}")

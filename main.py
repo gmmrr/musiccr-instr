@@ -247,7 +247,7 @@ def nfc_thread():
     nfc_obj = nfc.NFC()
     while True:
         while is_working:
-            nfc_obj.wait()
+            nfc_obj.read()
             print("NFC: Detected")
             time.sleep(0.5)
 

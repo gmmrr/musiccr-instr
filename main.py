@@ -349,12 +349,10 @@ def main():
 
     print("Instrument: End")
 
-    # while True:
-    #     # 讀取RFID卡片的ID
-    #     card_id = read_rfid()
-    #     print("RFID Card ID:", card_id)
-
-    read_rfid()
+    while True:
+        # 讀取RFID卡片的ID
+        card_id = read_rfid()
+        print("RFID Card ID:", card_id)
 
 
 

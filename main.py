@@ -2,7 +2,7 @@ import threading
 import RPi.GPIO as GPIO
 import time
 
-from mfrc522 import SimpleMFRC522
+from mfrc522 import SimpleMFRC522, BasicMFRC522
 
 
 
@@ -259,7 +259,10 @@ def nfc_thread():
 
 def read_rfid():
 
-    reader = SimpleMFRC522.__init__()
+    reader = SimpleMFRC522()
+    reader_b = BasicMFRC522()
+
+    id = reader_b.read_sectors(trailer_blocks=[11])
 
 
     text = "hello_world"

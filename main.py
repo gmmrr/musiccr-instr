@@ -262,13 +262,13 @@ def read_rfid():
     try:
         for _ in range(10):
             print("test")
-            # text = "hello_world"
-            # id, text_written = reader.write(text)
-            # print(f"ID: {id}")
-            # print(f"Text Written: {text_written}")
-            id, text = reader.read()
+            text = "hello_world"
+            id, text_written = reader.write(text)
             print(f"ID: {id}")
-            print(f"Text: {text}")
+            print(f"Text Written: {text_written}")
+            # id, text = reader.read()
+            # print(f"ID: {id}")
+            # print(f"Text: {text}")
 
     finally:
         # 清理GPIO資源

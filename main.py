@@ -260,8 +260,8 @@ def read_rfid():
     reader = SimpleMFRC522()
 
     try:
-        print("test")
         for _ in range(10):
+            print("test")
             # text = "hello_world"
             # id, text_written = reader.write(text)
             # print(f"ID: {id}")

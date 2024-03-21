@@ -1,5 +1,7 @@
 from mfrc522 import MFRC522
 
+print("test")
+
 reader = MFRC522()
 def read(trailer_block, key, block_addrs):
     (status, TagType) = reader.Request(reader.PICC_REQIDL)

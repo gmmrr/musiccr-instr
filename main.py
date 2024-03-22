@@ -259,6 +259,15 @@ def nfc_thread():
     else:
         print("No NFC detected")
 
+    time.sleep(3)
+
+    id, text = nfc_obj.read()
+    if id:
+        print(f'id: {id}')
+        print(f'text: {text}')
+    else:
+        print("No NFC detected")
+
 
 
 
@@ -272,6 +281,8 @@ def main():
 
     # Step 0: Initialize
     GPIO.setmode(GPIO.BOARD)
+    GPIO.setwarnings(False)
+
     global is_working
     is_working = True
 

@@ -2,7 +2,7 @@ import threading
 import RPi.GPIO as GPIO
 import time
 
-from mfrc522 import SimpleMFRC522
+from mfrc522 import MFRC522
 
 
 
@@ -261,33 +261,50 @@ def read_rfid():
 
     print("0")
 
-    reader = SimpleMFRC522()
+    reader = MFRC522()
 
     print("1")
+    status =  None
+    while status != reader.MI_OK:
+        (status, TagType) = reader.Request(reader.PICC_REQIDL)
+        if status == reader.MI_OK:
+            print("Connection Success!")
 
-    # print("Place your tag to write:")
-    # id_write, text_written = reader.write("Hello World!")
-    # print(id_write)
-    # print(text_written)
-    # print("Written.")
+    (status, uid) = reader.Anticoll()
+    if status == reader.MI_OK:
+        print(uid)
+
+    reader.SelectTag(uid)
+
+    trailer_block = 11
+    #This is the default key for MIFARE Cards
+    key = [0xFF, 0xFF, 0xFF , 0xFF, 0xFF, 0xFF]
+    status = reader.Authenticate(
+            reader.PICC_AUTHENT1A, trailer_block , key, uid)
+
+    block_nums = [8, 9, 10]
+    data = []
+    for block_num in block_nums:
+        block_data = reader.ReadTag(block_num)
+        if block_data:
+            data += block_data
+    if data:
+        print(''.join(chr(i) for i in data))
 
     print("2")
 
-    print("Place your tag to read:")
-    id, text = reader.read()
-    print(id)
-    print(text)
-    print("Read.")
-
     print("3")
 
-    reader.StopAuth()
+    block_nums = [8, 9, 10]
+    data = []
+    for block_num in block_nums:
+        block_data = reader.ReadTag(block_num)
+        if block_data:
+            data += block_data
+    if data:
+        print(''.join(chr(i) for i in data))
 
-    print("Place your tag to read:")
-    id_read, text = reader.read()
-    print(id_read)
-    print(text)
-    print("Read.")
+    reader.StopAuth()
 
 
     print("4")

@@ -1,8 +1,7 @@
 from mfrc522 import MFRC522
 
 class NFC:
-    def __init__(self, pin):
-        self.pin = pin
+    def __init__(self):
 
         self.reader = MFRC522()
 
@@ -14,7 +13,7 @@ class NFC:
         self.text = ''
 
 
-    def read(self, trailer_block, key, block_addrs):
+    def read(self):
         '''
         Read data from NFC tag
 
@@ -23,6 +22,8 @@ class NFC:
         Returns:
             data (str): data read from NFC tag
         '''
+
+        print('NFC: Read')
         (status, TagType) = self.reader.Request(self.reader.PICC_REQIDL)
 
         if status != self.reader.MI_OK:
@@ -35,11 +36,11 @@ class NFC:
 
         self.reader.SelectTag(uid)
         status = self.reader.Authenticate(
-            self.reader.PICC_AUTHENT1A, trailer_block , key, uid)
+            self.reader.PICC_AUTHENT1A, self.trailer_block , self.key, uid)
 
         if status == self.reader.MI_OK:
             data = []
-            for block_num in block_addrs:
+            for block_num in self.block_addrs:
                 block = self.reader.ReadTag(block_num)
                 if block:
                     data += block

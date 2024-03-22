@@ -262,6 +262,7 @@ def read_rfid():
     print("0")
 
     reader = SimpleMFRC522()
+    reader2 = SimpleMFRC522()
 
     print("1")
 
@@ -282,7 +283,7 @@ def read_rfid():
     print("3")
 
     print("Place your tag to read:")
-    id_read, text = reader.read()
+    id_read, text = reader2.read()
     print(id_read)
     print(text)
     print("Read.")

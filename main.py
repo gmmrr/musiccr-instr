@@ -262,41 +262,41 @@ def read_rfid():
     print("0")
 
     reader = SimpleMFRC522()
-    reader = MFRC522()
+    # reader = MFRC522()
 
     print("1")
 
-    status =  None
-    while status != reader.MI_OK:
-
-        print("Building...")
-        (status, TagType) = reader.Request(reader.PICC_REQIDL)
-        print("Built.")
-
-        if status == reader.MI_OK:
-            print("Connection Success!")
-        else:
-            print("Connection Failed!")
-
-    (status, uid) = reader.Anticoll()
-    if status == reader.MI_OK:
-        print(uid)
-
-    # print("Place your tag to write:")
-    # id_write, text_written = reader.write("Hello World!")
-    # print(id_write)
-    # print(text_written)
-    # print("Written.")
+    # status =  None
+    # while status != reader.MI_OK:
     #
-    # print("2")
+    #     print("Building...")
+    #     (status, TagType) = reader.Request(reader.PICC_REQIDL)
+    #     print("Built.")
     #
-    # print("Place your tag to read:")
-    # id_read, text = reader.read()
-    # print(id_read)
-    # print(text)
-    # print("Read.")
+    #     if status == reader.MI_OK:
+    #         print("Connection Success!")
+    #     else:
+    #         print("Connection Failed!")
     #
-    # print("3")
+    # (status, uid) = reader.Anticoll()
+    # if status == reader.MI_OK:
+    #     print(uid)
+
+    print("Place your tag to write:")
+    id_write, text_written = reader.write("Hello World!")
+    print(id_write)
+    print(text_written)
+    print("Written.")
+
+    print("2")
+
+    print("Place your tag to read:")
+    id_read, text = reader.read()
+    print(id_read)
+    print(text)
+    print("Read.")
+
+    print("3")
 
 
 

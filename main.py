@@ -2,9 +2,6 @@ import threading
 import RPi.GPIO as GPIO
 import time
 
-from mfrc522 import MFRC522
-
-
 
 # ------------------------------
 # import components
@@ -38,12 +35,12 @@ val_music = "src/s3m3.mp3"
 # ------------------------------
 # init pins
 # ------------------------------
-# pin_volume_knob_clk = 8
-# pin_volume_knob_dt = 10
-# pin_bpm_knob_clk = 36
-# pin_bpm_knob_dt = 38
-# pin_led = 10
-# pin_playbutton = 11
+pin_volume_knob_clk = 8
+pin_volume_knob_dt = 10
+pin_bpm_knob_clk = 36
+pin_bpm_knob_dt = 38
+pin_led = 10
+pin_playbutton = 11
 
 
 
@@ -190,40 +187,40 @@ def speaker_thread():
                 is_volume_updated = False
 
 
-def light_thread():
-    '''
-    To deal with the light effect
-
-    '''
-
-    global is_working
-    global is_music_updated
-    global is_volume_updated
-    global val_music
-    global val_volume
-    global pin_led
-
-
-    light_obj = light.Light(pin = pin_led)
-    light_obj.update(val_music, val_volume)
-
-    # while True:
-    #     while is_working:
-    #
-    #         if is_music_updated or is_volume_updated:
-    #             light.update(val_music, val_volume)
-    #             time.sleep(0.05)
-    #             is_music_updated = False
-    #             is_volume_updated = False
-
-    t_light_turn_on = threading.Thread(target=light_obj.turn_on)
-    t_light_turn_on.start()
-
-    t_light_turn_on = threading.Thread(target=light_obj.turn_on)
-    t_light_turn_on.start()
-
-
-        # light_obj.turn_off()
+# def light_thread():
+#     '''
+#     To deal with the light effect
+#
+#     '''
+#
+#     global is_working
+#     global is_music_updated
+#     global is_volume_updated
+#     global val_music
+#     global val_volume
+#     global pin_led
+#
+#
+#     light_obj = light.Light(pin = pin_led)
+#     light_obj.update(val_music, val_volume)
+#
+#     # while True:
+#     #     while is_working:
+#     #
+#     #         if is_music_updated or is_volume_updated:
+#     #             light.update(val_music, val_volume)
+#     #             time.sleep(0.05)
+#     #             is_music_updated = False
+#     #             is_volume_updated = False
+#
+#     t_light_turn_on = threading.Thread(target=light_obj.turn_on)
+#     t_light_turn_on.start()
+#
+#     t_light_turn_on = threading.Thread(target=light_obj.turn_on)
+#     t_light_turn_on.start()
+#
+#
+#         # light_obj.turn_off()
 
 
 def play_button_thread():
@@ -252,15 +249,6 @@ def nfc_thread():
     nfc_obj = nfc.NFC()
     # while True:
         # while is_working:
-    id, text = nfc_obj.read()
-    if id:
-        print(f'id: {id}')
-        print(f'text: {text}')
-    else:
-        print("No NFC detected")
-
-    time.sleep(3)
-
     id, text = nfc_obj.read()
     if id:
         print(f'id: {id}')

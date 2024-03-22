@@ -291,9 +291,9 @@ def read_rfid():
     if data:
         print(''.join(chr(i) for i in data))
 
-    print("2")
+    reader.StopAuth()
 
-    print("3")
+    print("2")
 
     block_nums = [8, 9, 10]
     data = []
@@ -307,7 +307,7 @@ def read_rfid():
     reader.StopAuth()
 
 
-    print("4")
+    print("3")
 
 
 

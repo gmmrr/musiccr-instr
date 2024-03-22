@@ -291,25 +291,13 @@ def read_rfid():
         if block_data:
             data += block_data
     if data:
-        print(''.join(chr(i) for i in data))
+        text_read = ''.join(chr(i) for i in data)
 
     reader.StopAuth()
+
+    print(text_read)
 
     print("3")
-
-    block_nums = [8, 9, 10]
-    data = []
-    for block_num in block_nums:
-        block_data = reader.ReadTag(block_num)
-        if block_data:
-            data += block_data
-    if data:
-        print(''.join(chr(i) for i in data))
-
-    reader.StopAuth()
-
-
-    print("4")
 
 
 

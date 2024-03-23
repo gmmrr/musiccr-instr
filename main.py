@@ -259,6 +259,15 @@ def nfc_thread():
     else:
         print("No NFC detected")
 
+    time.sleep(3)
+
+    id, text = nfc_obj.read()
+    if id:
+        print(f'id: {id}')
+        print(f'text: {text}')
+    else:
+        print("No NFC detected")
+
 
 
 

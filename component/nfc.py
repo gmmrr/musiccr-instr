@@ -1,8 +1,7 @@
 from mfrc522 import MFRC522
 
 class NFC:
-    def __init__(self, pin):
-        self.pin = pin
+    def __init__(self):
 
         self.reader = MFRC522()
 

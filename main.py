@@ -248,57 +248,18 @@ def nfc_thread():
     '''
     '''
     global is_working
+
     nfc_obj = nfc.NFC()
-    while True:
-        while is_working:
-            nfc_obj.read()
-            print("NFC: Detected")
-            time.sleep(0.5)
+    # while True:
+        # while is_working:
+    id, text = nfc_obj.read()
+    if id:
+        print(f'id: {id}')
+        print(f'text: {text}')
+    else:
+        print("No NFC detected")
 
 
-
-def read_rfid():
-
-    print("0")
-
-    reader = MFRC522()
-
-    print("1")
-    status =  None
-    while status != reader.MI_OK:
-        (status, TagType) = reader.Request(reader.PICC_REQIDL)
-        if status == reader.MI_OK:
-            print("Connection Success!")
-
-    (status, uid) = reader.Anticoll()
-    if status == reader.MI_OK:
-        print(uid)
-
-    reader.SelectTag(uid)
-
-    print("2")
-
-    trailer_block = 11
-    #This is the default key for MIFARE Cards
-    key = [0xFF, 0xFF, 0xFF , 0xFF, 0xFF, 0xFF]
-    status = reader.Authenticate(
-            reader.PICC_AUTHENT1A, trailer_block , key, uid)
-
-    block_nums = [8, 9, 10]
-    data = []
-    for block_num in block_nums:
-        block_data = reader.ReadTag(block_num)
-        print(block_data)
-        if block_data:
-            data += block_data
-    if data:
-        text_read = ''.join(chr(i) for i in data)
-
-    reader.StopAuth()
-
-    print(text_read)
-
-    print("3")
 
 
 
@@ -322,7 +283,7 @@ def main():
     # t_speaker = threading.Thread(target=speaker_thread)
     # t_light = threading.Thread(target=light_thread)
     # t_play_button = threading.Thread(target=play_button_thread)
-    # t_nfc = threading.Thread(target=nfc_thread)
+    t_nfc = threading.Thread(target=nfc_thread)
 
     # Step 2: Start Threads
     # t_volume_knob.start()
@@ -332,7 +293,7 @@ def main():
     # t_speaker.start()
     # t_light.start()
     # t_play_button.start()
-    # t_nfc.start()
+    t_nfc.start()
 
     # Step 3: Wait for Threads to Finish
     # t_volume_knob.join()
@@ -342,11 +303,9 @@ def main():
     # t_speaker.join()
     # t_light.join()
     # t_play_button.join()
-    # t_nfc.join()
+    t_nfc.join()
 
     print("Instrument: End")
-
-    read_rfid()
 
 
 

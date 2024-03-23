@@ -272,6 +272,8 @@ def main():
 
     # Step 0: Initialize
     GPIO.setmode(GPIO.BOARD)
+    GPIO.setwarnings(False)
+
     global is_working
     is_working = True
 

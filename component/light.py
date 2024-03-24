@@ -97,7 +97,6 @@ class Light():
 #     #
 #     #         if is_music_updated or is_volume_updated:
 #     #             light.update(val_music, val_volume)
-#     #             time.sleep(0.05)
 #     #             is_music_updated = False
 #     #             is_volume_updated = False
 #

@@ -1,25 +1,17 @@
 import RPi.GPIO as GPIO
 from api import music
-
 import time
-
 import pygame
 
 
 class AudioAmp():
     def __init__(self, music):
         self.music = music
-        self.reset()
 
-        self.is_updating = False
-
-
-    def reset(self):
-        '''
-
-        '''
         pygame.mixer.init()
         pygame.mixer.music.set_volume(0.5)
+
+        self.is_updating = False
 
 
     def update(self, music):
@@ -33,7 +25,7 @@ class AudioAmp():
         self.music = music
         print(f"Music Playing: {music}")
         pygame.mixer.music.load(self.music)
-        time.sleep(0.05)
+        time.sleep(0.1)
 
         self.is_updating = True
 
@@ -43,7 +35,6 @@ class AudioAmp():
 
         '''
         pygame.mixer.music.set_volume(volume)
-        time.sleep(0.05)
 
 
     def play(self):

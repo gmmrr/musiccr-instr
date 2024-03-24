@@ -1,4 +1,7 @@
 from mfrc522 import MFRC522
+import time
+import threading
+
 
 class NFC:
     def __init__(self):
@@ -13,6 +16,17 @@ class NFC:
         self.text = ''
 
 
+    def wait(self):
+        '''
+
+        '''
+        while True:
+            (status, TagType) = self.reader.Request(self.reader.PICC_REQIDL)
+            if status == self.reader.MI_OK:
+                break
+
+
+
     def read(self):
         '''
         Read data from NFC tag
@@ -23,21 +37,33 @@ class NFC:
             data (str): data read from NFC tag
         '''
 
+        # 0. wait until new nfc detected
+        t_wait = threading.Thread(self.wait())
+        t_wait.start()
+        t_wait.join()
+
         print('NFC: Read')
+
+
+        # 1. define status
         (status, TagType) = self.reader.Request(self.reader.PICC_REQIDL)
 
         if status != self.reader.MI_OK:
             return None, None
 
+
+        # 2. decide id
         (status, uid) = self.reader.Anticoll()
         if status != self.reader.MI_OK:
             return None, None
         self.id = uid
 
+        # 3. make sure there are no multiple nfc detected
         self.reader.SelectTag(uid)
         status = self.reader.Authenticate(
             self.reader.PICC_AUTHENT1A, self.trailer_block , self.key, uid)
 
+        # 4. get text (or message) inside
         if status == self.reader.MI_OK:
             data = []
             for block_num in self.block_addrs:
@@ -47,6 +73,9 @@ class NFC:
             if data:
                 self.text = ''.join(chr(i) for i in data)
 
+        # 5. reset
+        time.sleep(0.5)
         self.reader.StopAuth()
+        self.e_nfc_detect.clear()
 
         return self.id, self.text

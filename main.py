@@ -274,8 +274,8 @@ def read_rfid():
     print("2")
 
     print("Place your tag to read:")
-    id_read, text = reader.read()
-    print(id_read)
+    id, text = reader.read()
+    print(id)
     print(text)
     print("Read.")
 

@@ -268,12 +268,12 @@ def read_rfid():
 
         print("test2")
 
-        print("Place card to write: ")
-        text = "Hello, world"
-        id, text_written = reader.write(text)
-        print(id)
-        print(text_written)
-        print(f"Written.")
+        # print("Place card to write: ")
+        # text = "Hello, world"
+        # id, text_written = reader.write(text)
+        # print(id)
+        # print(text_written)
+        # print(f"Written.")
 
         print("test3")
 

@@ -262,19 +262,29 @@ def read_rfid():
     reader = SimpleMFRC522()
     reader_b = BasicMFRC522()
 
-    id = reader_b.read_sectors(trailer_blocks=[11])
 
+    print("test1")
+
+    id = reader_b.read_sectors(trailer_blocks=[11])
+    print(id)
+
+    print("test2")
 
     text = "hello_world"
     id, text_written = reader.write(text)
     print(f"ID: {id}")
     print(f"Text Written: {text_written}")
 
+    print("test3")
+
 
     print("Place your tag to read")
     id, text = reader.read()
     print(id)
     print(text)
+
+
+    print("test4")
 
 
 

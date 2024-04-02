@@ -288,10 +288,10 @@ def read_rfid():
     data = []
     for block_num in block_nums:
         block_data = reader.ReadTag(block_num)
+        print(block_data)
         if block_data:
             data += block_data
     if data:
-        print("data:")
         text_read = ''.join(chr(i) for i in data)
 
     reader.StopAuth()

@@ -25,6 +25,7 @@ class AudioAmp():
         self.music = music
         pygame.mixer.music.load(self.music)
 
+
     def play(self):
         '''
         play the music
@@ -33,7 +34,7 @@ class AudioAmp():
         Returns:
         - void
         '''
-        pygame.mixer.music.play()
+        # pygame.mixer.music.play()
         while pygame.mixer.music.get_busy():
             continue
 

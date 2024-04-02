@@ -35,6 +35,9 @@ def volume_knob_thread():
 
     global val_volume
 
+    print()
+    print("!")
+
     volume_knob = knob.VolumeKnob(clk_pin = 14, dt_pin = 15)
 
     while True:
@@ -53,6 +56,9 @@ def bpm_knob_thread():
     global is_bpm_updated
 
     global val_bpm
+
+    print()
+    print("?")
 
     bpm_knob = knob.BPMKnob(clk_pin = 23, dt_pin = 24)
 
@@ -171,8 +177,8 @@ def main():
     GPIO.setmode(GPIO.BOARD)
 
     print("Instrument: Start")
-    # t_volume_knob = threading.Thread(target=volume_knob_thread)
-    # t_bpm_knob = threading.Thread(target=bpm_knob_thread)
+    t_volume_knob = threading.Thread(target=volume_knob_thread)
+    t_bpm_knob = threading.Thread(target=bpm_knob_thread)
     # t_pitch_slider = threading.Thread(target=pitch_slider_thread)
     t_music = threading.Thread(target=music_thread)
     t_speaker = threading.Thread(target=speaker_thread)
@@ -180,8 +186,8 @@ def main():
     t_play_button = threading.Thread(target=play_button_thread)
 
     # start threads
-    # t_volume_knob.start()
-    # t_bpm_knob.start()
+    t_volume_knob.start()
+    t_bpm_knob.start()
     # t_pitch_slider.start()
     t_music.start()
     t_speaker.start()
@@ -189,8 +195,8 @@ def main():
     t_play_button.start()
 
     # wait for threads to finish
-    # t_volume_knob.join()
-    # t_bpm_knob.join()
+    t_volume_knob.join()
+    t_bpm_knob.join()
     # t_pitch_slider.join()
     t_music.join()
     t_speaker.join()

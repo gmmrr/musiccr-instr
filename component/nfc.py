@@ -22,6 +22,8 @@ class NFC:
         Returns:
             data (str): data read from NFC tag
         '''
+
+        print('NFC: Read')
         (status, TagType) = self.reader.Request(self.reader.PICC_REQIDL)
 
         if status != self.reader.MI_OK:

@@ -276,6 +276,8 @@ def read_rfid():
 
     reader.SelectTag(uid)
 
+    print("2")
+
     trailer_block = 11
     #This is the default key for MIFARE Cards
     key = [0xFF, 0xFF, 0xFF , 0xFF, 0xFF, 0xFF]
@@ -293,7 +295,7 @@ def read_rfid():
 
     reader.StopAuth()
 
-    print("2")
+    print("3")
 
     block_nums = [8, 9, 10]
     data = []
@@ -307,7 +309,7 @@ def read_rfid():
     reader.StopAuth()
 
 
-    print("3")
+    print("4")
 
 
 

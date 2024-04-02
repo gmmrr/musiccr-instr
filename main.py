@@ -259,10 +259,11 @@ def nfc_thread():
 
 def read_rfid():
 
+    print("0")
+
     reader = SimpleMFRC522()
 
-
-    print("test1")
+    print("1")
 
     print("Place your tag to write:")
     id_write, text_written = reader.write("Hello World!")
@@ -270,8 +271,7 @@ def read_rfid():
     print(text_written)
     print("Written.")
 
-    print("test2")
-
+    print("2")
 
     print("Place your tag to read:")
     id_read, text = reader.read()
@@ -279,8 +279,7 @@ def read_rfid():
     print(text)
     print("Read.")
 
-
-    print("test3")
+    print("3")
 
 
 

@@ -3,7 +3,6 @@ import RPi.GPIO as GPIO
 import time
 
 from mfrc522 import SimpleMFRC522
-import signal
 
 
 
@@ -262,16 +261,17 @@ def read_rfid():
 
     reader = SimpleMFRC522()
 
+    # print("Place your tag to read")
+    # id, text = reader.read()
+    # print(id)
+    # print(text)
 
-    try:
-        print("Place your tag to read")
-        id, text = reader.read()
-        print(id)
-        print(text)
+    text = "hello_world"
+    id, text_written = reader.write(text)
+    print(f"ID: {id}")
+    print(f"Text Written: {text_written}")
 
 
-    except KeyboardInterrupt:
-        rdr.cleanup()
 
 
 # ------------------------------

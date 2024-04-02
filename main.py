@@ -258,27 +258,31 @@ def nfc_thread():
 
 def read_rfid():
 
-    print("test1")
+    try:
 
-    reader = SimpleMFRC522()
+        print("test1")
 
-    print("test2")
+        reader = SimpleMFRC522()
 
-    print("Place card to write: ")
-    text = "Hello, world"
-    reader.write(text)
-    print(f"Written.")
+        print("test2")
 
-    print("test3")
+        print("Place card to write: ")
+        text = "Hello, world"
+        reader.write(text)
+        print(f"Written.")
 
-    time.sleep(3)
-    print("Place your card to read: ")
-    id, text = reader.read()
-    print("Read.")
-    print(id)
-    print(text)
+        print("test3")
 
-    print("test4")
+        time.sleep(3)
+        print("Place your card to read: ")
+        id, text = reader.read()
+        print("Read.")
+        print(id)
+        print(text)
+
+        print("test4")
+    finally:
+        GPIO.cleanup()
 
 
 # ------------------------------
@@ -326,9 +330,10 @@ def main():
 
     print("Instrument: End")
 
-    GPIO.setwarnings(False)
-    read_rfid()
-
+    while True:
+        # 讀取RFID卡片的ID
+        card_id = read_rfid()
+        print("RFID Card ID:", card_id)
 
 
 

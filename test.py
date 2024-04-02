@@ -33,3 +33,9 @@ while not id:
 
 print(id)
 print(text)
+
+def __main__():
+    read()
+
+if __name__ == "__main__":
+    __main__()

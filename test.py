@@ -1,30 +1,21 @@
-# from mfrc522 import SimpleMFRC522
-#
-# reader = SimpleMFRC522()
-#
-# print("test")
-#
-# text = "Hello, world"
-# id, text_written = reader.write(text)
-# print("test")
-# print(f"ID: {id}")
-# print(f"Text Written: {text_written}")
-#
-# id, text = reader.read()
-# print("test")
-# print(f"ID: {id}")
-# print(f"Text: {text}")
-
 import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
 
 reader = SimpleMFRC522()
 
+print("test")
+
+text = "Hello, world"
+
 try:
-        text = input('New data:')
-        print("Now place your tag to write")
-        reader.write(text)
-        print("Written")
+
+    reader.write(text)
+    print(f"Written")
+
+    id, text = reader.read()
+    print("test")
+    print(id)
+    print(text)
 
 finally:
-        GPIO.cleanup()
+    GPIO.cleanup()

@@ -288,7 +288,7 @@ def read_rfid():
 #     print(f'UID: {uid:X}')
 
     except KeyboardInterrupt:
-        GPIO.cleanup()
+        rdr.cleanup()
 
 
 # ------------------------------

@@ -106,7 +106,6 @@ def music_thread():
                 is_pitch_updated = False
 
 
-
 def speaker_thread():
     '''
 
@@ -119,26 +118,23 @@ def speaker_thread():
 
     speaker = audioamp.AudioAmp(music=val_music)
 
-    speaker.update(val_music)
-    speaker.play()
+    t_speaker_play = threading.Thread(target=speaker.play)
 
-    print("!")
+    speaker.update(val_music)
 
     while True:
         while is_working:
 
             if is_music_updated:
                 speaker.update(val_music)
+                time.sleep(0.1)
                 is_music_updated = False
 
+                t_speaker_play.start()
 
             if is_volume_updated:
                 speaker.set_volume(val_volume/100)
                 is_volume_updated = False
-
-        speaker.stop()
-
-
 
 
 # def light_thread():

@@ -261,21 +261,13 @@ def read_rfid():
 
     try:
         while True:
-            # # 掃描RFID卡片
-            # (status, TagType) = reader.MFRC522_Request(reader.PICC_REQIDL)
-            #
-            # # 如果發現卡片，讀取卡片的UID
-            # if status == reader.MI_OK:
-            #     (status, uid) = reader.MFRC522_Anticoll()
-            #
-            #     # 將UID轉換為十六進制字符串
-            #     uid_str = ''.join([str(i) for i in uid])
-            #
-            #     # 返回RFID卡片的UID
-            #     return uid_str
-            id, text = reader.read()
+            text = "hello_world"
+            id, text_written = reader.write(text)
             print(f"ID: {id}")
-            print(f"Text: {text}")
+            print(f"Text Written: {text_written}")
+            # id, text = reader.read()
+            # print(f"ID: {id}")
+            # print(f"Text: {text}")
 
     finally:
         # 清理GPIO資源
@@ -329,11 +321,9 @@ def main():
 
     print("Instrument: End")
 
+    read_rfid()
 
-    while True:
-        # 讀取RFID卡片的ID
-        card_id = read_rfid()
-        print("RFID Card ID:", card_id)
+
 
 
 

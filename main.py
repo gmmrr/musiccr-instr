@@ -282,11 +282,11 @@ def read_rfid():
     # if status == reader.MI_OK:
     #     print(uid)
 
-    print("Place your tag to write:")
-    id_write, text_written = reader.write("Hello World!")
-    print(id_write)
-    print(text_written)
-    print("Written.")
+    # print("Place your tag to write:")
+    # id_write, text_written = reader.write("Hello World!")
+    # print(id_write)
+    # print(text_written)
+    # print("Written.")
 
     print("2")
 

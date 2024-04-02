@@ -6,6 +6,7 @@ print("test")
 
 text = "Hello, world"
 id, text_written = reader.write(text)
+print("test")
 print(f"ID: {id}")
 print(f"Text Written: {text_written}")
 

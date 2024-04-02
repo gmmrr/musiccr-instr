@@ -2,9 +2,6 @@ import threading
 import RPi.GPIO as GPIO
 import time
 
-from mfrc522 import MFRC522
-
-
 
 # ------------------------------
 # import components
@@ -38,12 +35,12 @@ val_music = "src/s3m3.mp3"
 # ------------------------------
 # init pins
 # ------------------------------
-# pin_volume_knob_clk = 8
-# pin_volume_knob_dt = 10
-# pin_bpm_knob_clk = 36
-# pin_bpm_knob_dt = 38
-# pin_led = 10
-# pin_playbutton = 11
+pin_volume_knob_clk = 8
+pin_volume_knob_dt = 10
+pin_bpm_knob_clk = 36
+pin_bpm_knob_dt = 38
+pin_led = 10
+pin_playbutton = 11
 
 
 

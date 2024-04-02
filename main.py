@@ -2,7 +2,7 @@ import threading
 import RPi.GPIO as GPIO
 import time
 
-from mfrc522 import SimpleMFRC522, BasicMFRC522
+from mfrc522 import MFRC522, SimpleMFRC522, BasicMFRC522
 
 
 
@@ -262,24 +262,33 @@ def read_rfid():
     print("0")
 
     reader = SimpleMFRC522()
+    reader = MFRC522()
 
     print("1")
 
-    print("Place your tag to write:")
-    id_write, text_written = reader.write("Hello World!")
-    print(id_write)
-    print(text_written)
-    print("Written.")
+    status =  None
+    while status != reader.MI_OK:
+        (status, TagType) = reader.Request(reader.PICC_REQIDL)
+        if status == reader.MI_OK:
+            print("Connection Success!")
+        else:
+            print("Connection Failed!")
 
-    print("2")
-
-    print("Place your tag to read:")
-    id_read, text = reader.read()
-    print(id_read)
-    print(text)
-    print("Read.")
-
-    print("3")
+    # print("Place your tag to write:")
+    # id_write, text_written = reader.write("Hello World!")
+    # print(id_write)
+    # print(text_written)
+    # print("Written.")
+    #
+    # print("2")
+    #
+    # print("Place your tag to read:")
+    # id_read, text = reader.read()
+    # print(id_read)
+    # print(text)
+    # print("Read.")
+    #
+    # print("3")
 
 
 

@@ -264,10 +264,10 @@ def read_rfid():
 
     print("test2")
 
-    print("Place card to write: ")
-    text = "Hello, world"
-    reader.write(text)
-    print(f"Written.")
+    # print("Place card to write: ")
+    # text = "Hello, world"
+    # reader.write(text)
+    # print(f"Written.")
 
     print("test3")
 

@@ -27,6 +27,10 @@ val_music = "src/s3m3.mp3"
 
 def volume_knob_thread():
     '''
+    Control the volume knob
+
+    Args:
+    - volume_knob: knob.VolumeKnob
 
     '''
     global is_working

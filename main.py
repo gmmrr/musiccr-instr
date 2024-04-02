@@ -262,6 +262,7 @@ def read_rfid():
     text = "Hello, world"
 
     print("test1")
+    print(writer)
     id, text_written = writer.write(text)
     print(f"ID: {id}")
     print(f"Text Written: {text_written}")

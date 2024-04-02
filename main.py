@@ -291,6 +291,7 @@ def read_rfid():
         if block_data:
             data += block_data
     if data:
+        print("data:")
         text_read = ''.join(chr(i) for i in data)
 
     reader.StopAuth()

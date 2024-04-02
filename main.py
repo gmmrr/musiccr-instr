@@ -1,9 +1,10 @@
 from machine import Pin
 from utime import sleep
+import _thread
 
 # import instrument components
 from component import bluetooth, nfc
-from data import music
+from api import music
 from component import knob, light, audioamp
 from api import slider
 
@@ -21,24 +22,46 @@ speaker = audioamp.AudioAmp(pin=0, music=music, volume_knob=volume_knob, light=l
 
 pico_led = Pin("LED", Pin.OUT)
 
-# main function
-try:
-    print("Instrument:Start")
-    while True:  # Keep Instrument working
-
-        is_playing = True
-        while is_playing: #
+# define threads
+def test_thread():
+    try:
+        while True:
             pico_led.on()
-            speaker.play()
+            print("LED:ON")
 
+    except KeyboardInterrupt:
+        pass
+    finally:
+        pico_led.off
 
-        pico_led.off()
+def speaker_thread():
+    try:
+        speaker.play()
+        while True:
+            music.receive_music()
+            volume_knob.update()
+            speaker.update()
+
+    except KeyboardInterrupt:
+        pass
+    finally:
         speaker.stop()
 
+def slider_thread():
+    try:
+        while True:
+            pitch_slider.update()
+            bpm_slider.update()
 
-except KeyboardInterrupt:
-    pass
-finally:
-    pico_led.off()
-    speaker.stop()
-    print("Instrument:Finish")
+    except KeyboardInterrupt:
+        pass
+    finally:
+        pass
+
+
+# start threads
+print("Instrument:Start")
+_thread.start_new_thread(test_thread, ())
+_thread.start_new_thread(speaker_thread, ())
+_thread.start_new_thread(slider_thread, ())
+print("Instrument:Finish")

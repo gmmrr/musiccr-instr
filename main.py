@@ -268,7 +268,11 @@ def read_rfid():
 
     status =  None
     while status != reader.MI_OK:
+
+        print("Building...")
         (status, TagType) = reader.Request(reader.PICC_REQIDL)
+        print("Built.")
+
         if status == reader.MI_OK:
             print("Connection Success!")
         else:

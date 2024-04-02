@@ -39,11 +39,7 @@
 #X obj 464 161 netreceive -b 9001;
 #X obj 464 339 netreceive -b 9002;
 #X obj 463 523 netreceive -b 9003;
-#X text 620 88 filename;
-#X obj 621 139 print filename;
 #X obj 463 640 print volume;
-#X obj 621 109 netreceive -b 9000;
-#X obj 621 169 sel 1 2 3 4 5 6 7 8 9 10;
 #X connect 1 0 4 0;
 #X connect 2 0 3 0;
 #X connect 3 0 5 0;
@@ -77,8 +73,7 @@
 #X connect 29 0 32 0;
 #X connect 32 0 33 0;
 #X connect 33 0 9 1;
-#X connect 33 0 39 0;
+#X connect 33 0 37 0;
 #X connect 34 0 17 0;
 #X connect 35 0 20 0;
 #X connect 36 0 29 0;
-#X connect 40 0 38 0;

@@ -110,7 +110,7 @@ def speaker_thread():
     global music
     global val_music
 
-    speaker = audioamp.AudioAmp(pin = -1, music=val_music)
+    speaker = audioamp.AudioAmp(music=val_music)
 
     speaker.play()
 

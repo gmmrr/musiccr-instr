@@ -2,6 +2,9 @@ import threading
 import RPi.GPIO as GPIO
 import time
 
+import MFRC522
+
+
 # ------------------------------
 # import components
 # ------------------------------
@@ -253,6 +256,30 @@ def nfc_thread():
 
 
 
+def read_rfid():
+    # 創建MFRC522物件
+    reader = MFRC522.MFRC522()
+
+    try:
+        while True:
+            # 掃描RFID卡片
+            (status, TagType) = reader.MFRC522_Request(reader.PICC_REQIDL)
+
+            # 如果發現卡片，讀取卡片的UID
+            if status == reader.MI_OK:
+                (status, uid) = reader.MFRC522_Anticoll()
+
+                # 將UID轉換為十六進制字符串
+                uid_str = ''.join([str(i) for i in uid])
+
+                # 返回RFID卡片的UID
+                return uid_str
+
+    finally:
+        # 清理GPIO資源
+        GPIO.cleanup()
+
+
 
 
 
@@ -276,7 +303,7 @@ def main():
     # t_speaker = threading.Thread(target=speaker_thread)
     # t_light = threading.Thread(target=light_thread)
     # t_play_button = threading.Thread(target=play_button_thread)
-    t_nfc = threading.Thread(target=nfc_thread)
+    # t_nfc = threading.Thread(target=nfc_thread)
 
     # Step 2: Start Threads
     # t_volume_knob.start()
@@ -286,7 +313,7 @@ def main():
     # t_speaker.start()
     # t_light.start()
     # t_play_button.start()
-    t_nfc.start()
+    # t_nfc.start()
 
     # Step 3: Wait for Threads to Finish
     # t_volume_knob.join()
@@ -296,9 +323,16 @@ def main():
     # t_speaker.join()
     # t_light.join()
     # t_play_button.join()
-    t_nfc.join()
+    # t_nfc.join()
 
     print("Instrument: End")
+
+
+    while True:
+        # 讀取RFID卡片的ID
+        card_id = read_rfid()
+        print("RFID Card ID:", card_id)
+
 
 
 if __name__ == "__main__":

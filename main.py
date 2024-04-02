@@ -264,10 +264,10 @@ def read_rfid():
 
     print("test2")
 
-    # print("Place card to write: ")
-    # text = "Hello, world"
-    # reader.write(text)
-    # print(f"Written.")
+    print("Place card to write: ")
+    text = "Hello, world"
+    reader.write(text)
+    print(f"Written.")
 
     print("test3")
 
@@ -325,8 +325,6 @@ def main():
     # t_nfc.join()
 
     print("Instrument: End")
-
-    print(GPIO.getmode())
 
     read_rfid()
 

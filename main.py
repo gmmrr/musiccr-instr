@@ -257,8 +257,7 @@ def nfc_thread():
 
 
 def read_rfid():
-    # 創建MFRC522物件
-    reader = MFRC522.MFRC522()
+    reader = MFRC522()
 
     try:
         while True:

@@ -2,7 +2,7 @@ import threading
 import RPi.GPIO as GPIO
 import time
 
-from mfrc522 import MFRC522
+from mfrc522 import SimpleMFRC522
 
 
 # ------------------------------
@@ -257,22 +257,25 @@ def nfc_thread():
 
 
 def read_rfid():
-    reader = MFRC522()
+    reader = SimpleMFRC522()
 
     try:
         while True:
-            # 掃描RFID卡片
-            (status, TagType) = reader.MFRC522_Request(reader.PICC_REQIDL)
-
-            # 如果發現卡片，讀取卡片的UID
-            if status == reader.MI_OK:
-                (status, uid) = reader.MFRC522_Anticoll()
-
-                # 將UID轉換為十六進制字符串
-                uid_str = ''.join([str(i) for i in uid])
-
-                # 返回RFID卡片的UID
-                return uid_str
+            # # 掃描RFID卡片
+            # (status, TagType) = reader.MFRC522_Request(reader.PICC_REQIDL)
+            #
+            # # 如果發現卡片，讀取卡片的UID
+            # if status == reader.MI_OK:
+            #     (status, uid) = reader.MFRC522_Anticoll()
+            #
+            #     # 將UID轉換為十六進制字符串
+            #     uid_str = ''.join([str(i) for i in uid])
+            #
+            #     # 返回RFID卡片的UID
+            #     return uid_str
+            id, text = reader.read()
+            print(f"ID: {id}")
+            print(f"Text: {text}")
 
     finally:
         # 清理GPIO資源

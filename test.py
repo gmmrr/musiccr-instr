@@ -1,4 +1,7 @@
+import RPi.GPIO as GPIO
 from mfrc522 import MFRC522
+
+GPIO.setwarnings(False)
 
 reader = MFRC522()
 def read(trailer_block, key, block_addrs):

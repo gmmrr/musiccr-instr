@@ -326,6 +326,7 @@ def main():
 
     print("Instrument: End")
 
+    GPIO.setwarnings(False)
     read_rfid()
 
 

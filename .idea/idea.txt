@@ -1,0 +1,7 @@
+Component:
+  - BT
+  - NFC
+  - Slider
+  - Knob
+  - LED
+  - Speaker

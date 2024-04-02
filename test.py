@@ -31,11 +31,6 @@ id, text = read(trailer_block, key, block_addrs)
 while not id:
     id, text = read(trailer_block, key, block_addrs)
 
+print("test")
 print(id)
 print(text)
-
-def __main__():
-    read()
-
-if __name__ == "__main__":
-    __main__()

@@ -258,17 +258,27 @@ def nfc_thread():
 
 def read_rfid():
 
-    writer = SimpleMFRC522()
-    text = "Hello, world"
-
     print("test1")
-    print(writer)
-    id, text_written = writer.write(text)
-    print(f"ID: {id}")
-    print(f"Text Written: {text_written}")
+
+    reader = SimpleMFRC522()
+
     print("test2")
 
+    print("Place card to write: ")
+    text = "Hello, world"
+    reader.write(text)
+    print(f"Written.")
 
+    print("test3")
+
+    time.sleep(3)
+    print("Place your card to read: ")
+    id, text = reader.read()
+    print("Read.")
+    print(id)
+    print(text)
+
+    print("test4")
 
 
 # ------------------------------

@@ -260,31 +260,27 @@ def nfc_thread():
 def read_rfid():
 
     reader = SimpleMFRC522()
-    reader_b = BasicMFRC522()
 
 
     print("test1")
 
-    id = reader_b.read_sectors(trailer_blocks=[11])
-    print(id)
+    print("Place your tag to write:")
+    id_write, text_written = reader.write("Hello World!")
+    print(id_write)
+    print(text_written)
+    print("Written.")
 
     print("test2")
 
-    text = "hello_world"
-    id, text_written = reader.write(text)
-    print(f"ID: {id}")
-    print(f"Text Written: {text_written}")
+
+    print("Place your tag to read:")
+    id_read, text = reader.read()
+    print(id_read)
+    print(text)
+    print("Read.")
+
 
     print("test3")
-
-
-    print("Place your tag to read")
-    id, text = reader.read()
-    print(id)
-    print(text)
-
-
-    print("test4")
 
 
 

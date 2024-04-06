@@ -24,7 +24,7 @@
 #X obj 571 365 / 100;
 #X obj 571 388 * 0.015;
 #X obj 571 411 + 0.025;
-#X text 569 306 freq;
+#X text 569 308 freq;
 #X text 569 128 speed;
 #X text 628 388 (offset);
 #X text 614 208 (offset);
@@ -32,7 +32,7 @@
 #X obj 571 267 print speed;
 #X obj 570 552 / 100;
 #X text 627 575 (offset);
-#X text 568 493 volume;
+#X text 568 494 volume;
 #X obj 570 575 * 3.5;
 #X obj 570 598 + 0;
 #X obj 570 633 print volume;

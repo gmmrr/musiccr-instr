@@ -6,12 +6,10 @@ import time
 # ------------------------------
 # import components
 # ------------------------------
-from component import audioamp
 from component import knob
 from component import slider
-from component import playbutton
-from api import music
 from component import nfc
+from api import music
 
 
 # ------------------------------
@@ -19,56 +17,30 @@ from component import nfc
 # ------------------------------
 is_working = False
 
-e_volume_update = threading.Event()
 e_bpm_update = threading.Event()
 e_pitch_update = threading.Event()
-e_music_update = threading.Event()
+e_volume_update = threading.Event()
+e_track_update = threading.Event()
 
-val_volume = 50
 val_bpm = 3
 val_pitch = 3
-val_music = "src/s3m3.mp3"
-val_id = 1
+val_volume = 50
+val_track = 1
 
 
 # ------------------------------
 # init pins
 # ------------------------------
-pin_volume_knob_clk = 8
-pin_volume_knob_dt = 10
 pin_bpm_knob_clk = 36
 pin_bpm_knob_dt = 38
-pin_playbutton = 11
-
+pin_volume_knob_clk = 8
+pin_volume_knob_dt = 10
 
 
 
 # ------------------------------
 # define threads
 # ------------------------------
-def volume_knob_thread():
-    '''
-
-    '''
-    global is_working
-    global e_volume_update
-    global val_volume
-    global pin_volume_knob_clk
-    global pin_volume_knob_dt
-
-    volume_knob = knob.VolumeKnob(clk_pin = pin_volume_knob_clk, dt_pin = pin_volume_knob_dt)
-
-
-    while True:
-        while is_working:
-
-            volume_knob.update()
-
-            print(f"Volume: {volume_knob.get_state()}")
-            val_volume = volume_knob.get_state()
-            e_volume_update.set()
-
-
 def bpm_knob_thread():
     '''
 
@@ -76,8 +48,10 @@ def bpm_knob_thread():
     global is_working
     global e_bpm_update
     global val_bpm
+
     global pin_bpm_knob_clk
     global pin_bpm_knob_dt
+
 
     bpm_knob = knob.BPMKnob(clk_pin = pin_bpm_knob_clk, dt_pin = pin_bpm_knob_dt)
 
@@ -100,6 +74,7 @@ def pitch_slider_thread():
     global e_pitch_update
     global val_pitch
 
+
     pitch_slider = slider.PitchSlider()
 
 
@@ -112,88 +87,29 @@ def pitch_slider_thread():
                 val_pitch = pitch_slider.get_state()
 
 
-def music_thread():
+def volume_knob_thread():
     '''
 
     '''
     global is_working
-    global e_music_update
-    global e_bpm_update
-    global e_pitch_update
-    global val_music
-    global val_bpm
-    global val_pitch
-    global val_id
-
-    music_obj = music.Music()
-    c_music_update = threading.Condition()
-
-
-    while True:
-        while is_working:
-
-            with c_music_update:
-                c_music_update.wait_for(lambda: e_bpm_update.is_set() or e_pitch_update.is_set())
-
-                val_music = music_obj.update(bpm=val_bpm, pitch=val_pitch)
-
-                e_music_update.set()
-                e_bpm_update.clear()
-                e_pitch_update.clear()
-
-
-def speaker_thread():
-    '''
-
-    '''
-    global is_working
-    global e_music_update
     global e_volume_update
-    global val_music
     global val_volume
 
-    speaker = audioamp.AudioAmp(music=val_music)
-    c_speaker_update = threading.Condition()
+    global pin_volume_knob_clk
+    global pin_volume_knob_dt
 
-    speaker.update(val_music)
+
+    volume_knob = knob.VolumeKnob(clk_pin = pin_volume_knob_clk, dt_pin = pin_volume_knob_dt)
 
 
     while True:
         while is_working:
 
-            with c_speaker_update:
-                c_speaker_update.wait_for(lambda: e_music_update.is_set() or e_volume_update.is_set())
+            volume_knob.update()
 
-                if e_music_update.is_set():
-                    speaker.update(val_music)
-
-                    t_speaker_play = threading.Thread(target=speaker.play)
-                    t_speaker_play.start()
-
-                    e_music_update.clear()
-
-
-                if e_volume_update.is_set():
-                    speaker.set_volume(val_volume/100)
-
-                    e_volume_update.clear()
-
-
-
-def play_button_thread():
-    '''
-
-    '''
-    global is_working
-    global pin_playbutton
-
-    playbutton_obj = playbutton.PlayButton(pin = pin_playbutton)
-
-
-    while True:
-
-        playbutton_obj.wait()
-        is_working = not is_working
+            print(f"Volume: {volume_knob.get_state()}")
+            val_volume = volume_knob.get_state()
+            e_volume_update.set()
 
 
 def nfc_thread():
@@ -201,7 +117,9 @@ def nfc_thread():
 
     '''
     global is_working
-    global val_id
+    global e_track_update
+    global val_track
+
 
     nfc_obj = nfc.NFC()
 
@@ -209,12 +127,63 @@ def nfc_thread():
     while True:
         while is_working:
 
-            val_id, text = nfc_obj.read()
-            if val_id:
-                print(f'NFC_id: {val_id}')
+            val_track, text = nfc_obj.read()
+
+            if val_track:
+                print(f'NFC_id: {val_track}')
                 print(f'NFC_msg: {text}')
             else:
                 print("No NFC detected")
+
+
+
+def pdspeaker_thread():
+    '''
+
+    '''
+
+    global is_working
+    global e_bpm_update
+    global e_pitch_update
+    global e_volume_update
+
+
+    c_pdspeaker_update = threading.Condition()
+
+
+    while True:
+        while is_working:
+
+            with c_pdspeaker_update:
+                c_pdspeaker_update.wait_for(lambda:
+                    e_bpm_update.is_set()     or  e_pitch_update.is_set()  or  # Option 1 and 2
+                    e_volume_update.is_set()  or  e_track_update.is_set()  )   # Option 3 and 4
+
+
+                # Option 1. Update BPM
+                if e_bpm_update.is_set():
+
+                    e_bpm_update.clear()
+
+
+                # Option 2. Update Pitch
+                if e_pitch_update.is_set():
+
+                    e_pitch_update.clear()
+
+
+                # Option 3. Update Volume
+                if e_volume_update.is_set():
+
+                    e_volume_update.clear()
+
+
+                # Option 4. Update Track
+                if e_track_update.is_set():
+
+                    e_track_update.clear()
+
+
 
 
 
@@ -235,31 +204,25 @@ def main():
     is_working = True
 
     # Step 1: Create Threads
-    t_volume_knob = threading.Thread(target=volume_knob_thread)
     t_bpm_knob = threading.Thread(target=bpm_knob_thread)
     t_pitch_slider = threading.Thread(target=pitch_slider_thread)
-    t_music = threading.Thread(target=music_thread)
-    t_speaker = threading.Thread(target=speaker_thread)
-    t_play_button = threading.Thread(target=play_button_thread)
+    t_volume_knob = threading.Thread(target=volume_knob_thread)
     t_nfc = threading.Thread(target=nfc_thread)
+    t_pdspeaker = threading.Thread(target=pdspeaker_thread)
 
     # Step 2: Start Threads
-    t_volume_knob.start()
     t_bpm_knob.start()
     t_pitch_slider.start()
-    t_music.start()
-    t_speaker.start()
-    t_play_button.start()
+    t_volume_knob.start()
     t_nfc.start()
+    t_pdspeaker.start()
 
     # Step 3: Wait for Threads to Finish
-    t_volume_knob.join()
     t_bpm_knob.join()
     t_pitch_slider.join()
-    t_music.join()
-    t_speaker.join()
-    t_play_button.join()
+    t_volume_knob.join()
     t_nfc.join()
+    t_pdspeaker.join()
 
     # Step 4: Finish
     GPIO.cleanup()

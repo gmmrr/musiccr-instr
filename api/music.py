@@ -46,6 +46,9 @@ class PDSpeaker:
 
 
     def send_bpm(self, val):
+        '''
+        Send the value of BPM to Pure Data
+        '''
         try:
             self.val_bpm = val
             self.socket_bpm.sendall(struct.pack('B', self.val_bpm))
@@ -54,6 +57,9 @@ class PDSpeaker:
 
 
     def send_pitch(self, val):
+        '''
+        Send the value of Pitch to Pure Data
+        '''
         try:
             self.val_pitch = val
             self.socket_pitch.sendall(struct.pack('B', self.val_pitch))
@@ -62,6 +68,9 @@ class PDSpeaker:
 
 
     def send_volume(self, val):
+        '''
+        Send the value of Volume to Pure Data
+        '''
         try:
             self.val_volume = val
             self.socket_volume.sendall(struct.pack('B', self.val_volume))
@@ -70,6 +79,9 @@ class PDSpeaker:
 
 
     def send_track(self, val):
+        '''
+        Send the value of Track to Pure Data
+        '''
         try:
             self.val_track = val
             self.socket_track.sendall(struct.pack('B', self.val_track))
@@ -78,6 +90,9 @@ class PDSpeaker:
 
 
     def send_pause(self, val):
+        '''
+        Send the value of Pause to Pure Data
+        '''
         try:
             self.val_pause = val
             self.socket_pause.sendall(struct.pack('B', self.val_pause))

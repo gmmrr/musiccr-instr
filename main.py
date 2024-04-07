@@ -28,15 +28,11 @@ val_volume = 50
 val_track = 1
 val_pause = 1  # 0 means stop and 1 means play
 
-
-
-# ------------------------------
-# init pins
-# ------------------------------
-pin_bpm_knob_clk = 36
-pin_bpm_knob_dt = 38
-pin_volume_knob_clk = 8
-pin_volume_knob_dt = 10
+# pin_bpm_knob_clk = 36
+# pin_bpm_knob_dt = 38
+# pin_volume_knob_clk = 8
+# pin_volume_knob_dt = 10
+# pin_nfc = 40
 
 
 
@@ -45,15 +41,21 @@ pin_volume_knob_dt = 10
 # ------------------------------
 def bpm_knob_thread():
     '''
+    Detect the value of BPM knob
 
+    Args:
+    - e_bpm_update (threading.Event): event to notify the update of BPM value
+    - val_bpm (int): value of BPM
+    - bpm_knob (Knob): object of Knob class
+
+    Returns:
+    - e_bpm_update (threading.Event): set
+    - val_bpm (int)
     '''
     global e_bpm_update
     global val_bpm
 
-    global pin_bpm_knob_clk
-    global pin_bpm_knob_dt
-
-    bpm_knob = knob.Knob(clk_pin = pin_bpm_knob_clk, dt_pin = pin_bpm_knob_dt)
+    bpm_knob = knob.Knob(clk_pin = 36, dt_pin = 38)
 
     while True:
 
@@ -66,7 +68,16 @@ def bpm_knob_thread():
 
 def pitch_slider_thread():
     '''
+    Detect the value of Pitch slider
 
+    Args:
+    - e_pitch_update (threading.Event): event to notify the update of Pitch value
+    - val_pitch (int): value of Pitch
+    - pitch_slider (Slider): object of Slider class
+
+    Returns:
+    - e_pitch_update (threading.Event): set
+    - val_pitch (int)
     '''
     global e_pitch_update
     global val_pitch
@@ -83,15 +94,21 @@ def pitch_slider_thread():
 
 def volume_knob_thread():
     '''
+    Detect the value of Volume knob
 
+    Args:
+    - e_volume_update (threading.Event): event to notify the update of Volume value
+    - val_volume (int): value of Volume
+    - volume_knob (Knob): object of Knob class
+
+    Returns:
+    - e_volume_update (threading.Event): set
+    - val_volume (int)
     '''
     global e_volume_update
     global val_volume
 
-    global pin_volume_knob_clk
-    global pin_volume_knob_dt
-
-    volume_knob = knob.Knob(clk_pin = pin_volume_knob_clk, dt_pin = pin_volume_knob_dt)
+    volume_knob = knob.Knob(clk_pin = 8, dt_pin = 10)
 
     while True:
 
@@ -104,7 +121,16 @@ def volume_knob_thread():
 
 def nfc_thread():
     '''
+    Detect the value of NFC tag
 
+    Args:
+    - e_track_update (threading.Event): event to notify the update of Track value
+    - val_track (int): value of Track
+    - nfc_obj (NFC): object of NFC class
+
+    Returns:
+    - e_track_update (threading.Event): set
+    - val_track (int)
     '''
     global e_track_update
     global val_track
@@ -121,7 +147,16 @@ def nfc_thread():
 
 def playbutton_thread():
     '''
+    Detect if the Play button is pressed
 
+    Args:
+    - e_button_update (threading.Event): event to notify the update of Pause value
+    - val_pause (int): value of Pause, actually only 0(for stop) and 1(for play)
+    - play_button (Button): object of Button class
+
+    Returns:
+    - e_button_update (threading.Event): set
+    - val_pause (int)
     '''
     global e_button_update
     global val_pause
@@ -137,13 +172,33 @@ def playbutton_thread():
 
 def pdspeaker_thread():
     '''
+    Update the value of BPM, Pitch, Volume, Track, and Pause to Pure Data
 
+    Args:
+    - e_bpm_update (threading.Event)
+    - e_pitch_update
+    - e_volume_update
+    - e_track_update
+    - e_button_update
+
+    - val_bpm      (int)
+    - val_pitch
+    - val_volume
+    - val_track
+    - val_pause
+
+    Returns:
+    - None
     '''
     global e_bpm_update
     global e_pitch_update
     global e_volume_update
     global e_track_update
     global e_button_update
+    global val_bpm
+    global val_pitch
+    global val_volume
+    global val_track
     global val_pause
 
     pdspeaker = music.PDSpeaker()
@@ -229,7 +284,6 @@ def main():
     GPIO.cleanup()
 
     print("Instrument: End")
-
 
 
 if __name__ == "__main__":

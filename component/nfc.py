@@ -13,22 +13,30 @@ class NFC:
         self.block_addrs = [8,9,10]
 
         self.id = None
-        self.text = ''
+        self.text = ''  # it is not used actually
 
 
     def wait(self):
         '''
-
+        Hot wait until new nfc detected
         '''
         while True:
-            (status, TagType) = self.reader.Request(self.reader.PICC_REQIDL)
+            (status, _) = self.reader.Request(self.reader.PICC_REQIDL)
             if status == self.reader.MI_OK:
                 break
 
 
     def parse(self, uid):
         '''
+        Parse the detected id into recorded id
 
+        Args:
+        - record_1 (int): recorded id
+        - record_2 (int)
+        - record_3 (int)
+
+        Returns:
+        - parsed id (int)
         '''
         record_1 = []
         record_2 = []
@@ -49,10 +57,8 @@ class NFC:
         '''
         Read data from NFC tag
 
-        Args:
-            None
         Returns:
-            data (str): data read from NFC tag
+        - self.id (int): parsed id
         '''
 
         # 0. wait until new nfc detected
@@ -64,7 +70,7 @@ class NFC:
 
 
         # 1. define status
-        (status, TagType) = self.reader.Request(self.reader.PICC_REQIDL)
+        (status, _) = self.reader.Request(self.reader.PICC_REQIDL)
 
         if status != self.reader.MI_OK:
             return None
@@ -91,7 +97,7 @@ class NFC:
                 if block:
                     data += block
             if data:
-                self.text = ''.join(chr(i) for i in data)
+                self.text = ''.join(chr(i) for i in data)  # it is not uesd actually
 
         # 6. reset
         time.sleep(0.5)

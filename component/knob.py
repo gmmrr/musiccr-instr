@@ -15,13 +15,31 @@ class Knob():
         GPIO.setup(self.dt_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         GPIO.add_event_detect(self.clk_pin, GPIO.BOTH, callback=self.event_callback, bouncetime=50)
 
+
     def event_callback(self, _):
+        '''
+        Set the event when the knob is rotated.
+
+        Returns:
+        - e_rotate (threading.Event): set
+        '''
         self.e_rotate.set()
 
+
     def get_state(self):
+        '''
+        Get the current state of the knob
+
+        Returns:
+        - current_state (int): current state of the knob
+        '''
         return self.current_state
 
+
     def update(self):
+        '''
+        Update the current state of the knob
+        '''
         # 0. wait until rotate
         self.e_rotate.wait()
 

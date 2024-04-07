@@ -16,17 +16,17 @@ from component import button
 # ------------------------------
 # init variables
 # ------------------------------
-is_working = False
-
 e_bpm_update = threading.Event()
 e_pitch_update = threading.Event()
 e_volume_update = threading.Event()
 e_track_update = threading.Event()
+e_button_update = threading.Event()
 
 val_bpm = 3
 val_pitch = 3
 val_volume = 50
 val_track = 1
+is_paused = False
 
 pdspeaker = music.PDSpeaker()
 
@@ -49,7 +49,6 @@ def bpm_knob_thread():
     '''
 
     '''
-    global is_working
     global e_bpm_update
     global val_bpm
 
@@ -61,20 +60,18 @@ def bpm_knob_thread():
 
 
     while True:
-        while is_working:
 
-            bpm_knob.update()
+        bpm_knob.update()
 
-            print(f"BPM: {bpm_knob.get_state()}")
-            val_bpm = bpm_knob.get_state()
-            e_bpm_update.set()
+        print(f"BPM: {bpm_knob.get_state()}")
+        val_bpm = bpm_knob.get_state()
+        e_bpm_update.set()
 
 
 def pitch_slider_thread():
     '''
 
     '''
-    global is_working
     global e_pitch_update
     global val_pitch
 
@@ -83,19 +80,17 @@ def pitch_slider_thread():
 
 
     while True:
-        while is_working:
 
-            if pitch_slider.update():
-                print(f"Pitch: {pitch_slider.get_state()}")
-                e_pitch_update.set()
-                val_pitch = pitch_slider.get_state()
+        if pitch_slider.update():
+            print(f"Pitch: {pitch_slider.get_state()}")
+            e_pitch_update.set()
+            val_pitch = pitch_slider.get_state()
 
 
 def volume_knob_thread():
     '''
 
     '''
-    global is_working
     global e_volume_update
     global val_volume
 
@@ -107,39 +102,37 @@ def volume_knob_thread():
 
 
     while True:
-        while is_working:
 
-            volume_knob.update()
+        volume_knob.update()
 
-            print(f"Volume: {volume_knob.get_state()}")
-            val_volume = volume_knob.get_state()
-            e_volume_update.set()
+        print(f"Volume: {volume_knob.get_state()}")
+        val_volume = volume_knob.get_state()
+        e_volume_update.set()
 
 
 def nfc_thread():
     '''
 
     '''
-    global is_working
     global e_track_update
     global val_track
 
+    global is_paused
 
     nfc_obj = nfc.NFC()
 
 
     while True:
-        while is_working:
 
-            val_track, text = nfc_obj.read()
+        val_track, text = nfc_obj.read()
 
-            if val_track:
-                print(f'NFC_id: {val_track}')
-                print(f'NFC_msg: {text}')
-            else:
-                print("No NFC detected")
+        if val_track:
+            print(f'NFC_id: {val_track}')
+            print(f'NFC_msg: {text}')
+        else:
+            print("No NFC detected")
 
-            e_track_update.set()
+        e_track_update.set()
 
 
 
@@ -147,11 +140,11 @@ def pdspeaker_thread():
     '''
 
     '''
-
-    global is_working
     global e_bpm_update
     global e_pitch_update
     global e_volume_update
+    global e_track_update
+    global is_paused
     global pdspeaker
 
 
@@ -159,12 +152,13 @@ def pdspeaker_thread():
 
 
     while True:
-        while is_working:
+        while is_paused:
 
             with c_pdspeaker_update:
                 c_pdspeaker_update.wait_for(lambda:
                     e_bpm_update.is_set()     or  e_pitch_update.is_set()  or  # Option 1 and 2
-                    e_volume_update.is_set()  or  e_track_update.is_set()  )   # Option 3 and 4
+                    e_volume_update.is_set()  or  e_track_update.is_set()  or  # Option 3 and 4
+                    e_button_update.is_set())                                  # Option 5
 
 
                 # Option 1. Update BPM
@@ -191,12 +185,18 @@ def pdspeaker_thread():
                     e_track_update.clear()
 
 
+                # Option 5. Update Pause
+                if e_button_update.is_set():
+                    pdspeaker.send_pause(is_paused)
+                    e_button_update.clear()
+
+
 def playbutton_thread():
     '''
 
     '''
-
-    global is_working
+    global e_button_update
+    global is_paused
     global pdspeaker
 
 
@@ -206,7 +206,9 @@ def playbutton_thread():
     while True:
 
         play_button.wait()
-        is_working = not is_working
+        is_paused = not is_paused
+        e_button_update.set()
+
 
 
 
@@ -224,8 +226,6 @@ def main():
     GPIO.setmode(GPIO.BOARD)
     GPIO.setwarnings(False)
 
-    global is_working
-    is_working = True
 
     # Step 1: Create Threads
     t_bpm_knob = threading.Thread(target=bpm_knob_thread)

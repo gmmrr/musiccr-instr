@@ -1,5 +1,4 @@
 import smbus
-import time
 
 class Slider():
     def __init__(self):
@@ -20,11 +19,6 @@ class Slider():
 
     def get_state(self):
         return self.state
-
-
-class PitchSlider(Slider):
-    def __init__(self):
-        super().__init__()
 
     def update(self):
         value = self.bus.read_byte(self.address)

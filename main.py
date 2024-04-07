@@ -53,7 +53,7 @@ def bpm_knob_thread():
     global pin_bpm_knob_clk
     global pin_bpm_knob_dt
 
-    bpm_knob = knob.BPMKnob(clk_pin = pin_bpm_knob_clk, dt_pin = pin_bpm_knob_dt)
+    bpm_knob = knob.Knob(clk_pin = pin_bpm_knob_clk, dt_pin = pin_bpm_knob_dt)
 
     while True:
 
@@ -71,7 +71,7 @@ def pitch_slider_thread():
     global e_pitch_update
     global val_pitch
 
-    pitch_slider = slider.PitchSlider()
+    pitch_slider = slider.Slider()
 
     while True:
 
@@ -91,7 +91,7 @@ def volume_knob_thread():
     global pin_volume_knob_clk
     global pin_volume_knob_dt
 
-    volume_knob = knob.VolumeKnob(clk_pin = pin_volume_knob_clk, dt_pin = pin_volume_knob_dt)
+    volume_knob = knob.Knob(clk_pin = pin_volume_knob_clk, dt_pin = pin_volume_knob_dt)
 
     while True:
 

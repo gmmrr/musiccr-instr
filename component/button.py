@@ -1,5 +1,4 @@
 import RPi.GPIO as GPIO
-import time
 import threading
 
 class Button:
@@ -10,7 +9,7 @@ class Button:
         GPIO.setup(self.pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.add_event_detect(self.pin, GPIO.FALLING, callback=self.pressed, bouncetime=200)
 
-    def pressed(self, channel):
+    def pressed(self, _):
         self.e_press.set()
 
     def wait(self):

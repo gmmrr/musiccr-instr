@@ -9,12 +9,14 @@ class Button:
         GPIO.setup(self.pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.add_event_detect(self.pin, GPIO.FALLING, callback=self.pressed, bouncetime=200)
 
+
     def wait(self):
         '''
         Wait for pressed event, and then this function terminate
         '''
         self.e_press.wait()
         self.e_press.clear()
+
 
     def pressed(self, _):
         '''

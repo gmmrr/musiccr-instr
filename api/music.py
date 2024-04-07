@@ -43,8 +43,6 @@ class PDSpeaker:
         self.socket_pause.sendall(struct.pack('B', self.val_pause))
 
 
-
-
     def send_bpm(self, val):
         '''
         Send the value of BPM to Pure Data

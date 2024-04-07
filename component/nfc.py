@@ -26,6 +26,24 @@ class NFC:
                 break
 
 
+    def parse(self, uid):
+        '''
+
+        '''
+        record_1 = []
+        record_2 = []
+        record_3 = []
+
+        if uid == record_1:
+            return 1
+        elif uid == record_2:
+            return 2
+        elif uid == record_3:
+            return 3
+        else:
+            return 1
+
+
 
     def read(self):
         '''
@@ -49,21 +67,23 @@ class NFC:
         (status, TagType) = self.reader.Request(self.reader.PICC_REQIDL)
 
         if status != self.reader.MI_OK:
-            return None, None
+            return None
 
 
         # 2. decide id
         (status, uid) = self.reader.Anticoll()
         if status != self.reader.MI_OK:
-            return None, None
-        self.id = uid
+            return None
 
         # 3. make sure there are no multiple nfc detected
         self.reader.SelectTag(uid)
         status = self.reader.Authenticate(
             self.reader.PICC_AUTHENT1A, self.trailer_block , self.key, uid)
 
-        # 4. get text (or message) inside
+        # 4. change id to accessible one
+        self.id = self.parse(uid)
+
+        # 5. get text (or message) inside
         if status == self.reader.MI_OK:
             data = []
             for block_num in self.block_addrs:
@@ -73,9 +93,9 @@ class NFC:
             if data:
                 self.text = ''.join(chr(i) for i in data)
 
-        # 5. reset
+        # 6. reset
         time.sleep(0.5)
         self.reader.StopAuth()
         self.e_nfc_detect.clear()
 
-        return self.id, self.text
+        return self.id

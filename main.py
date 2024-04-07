@@ -114,11 +114,10 @@ def nfc_thread():
 
     while True:
 
-        val_track, text = nfc_obj.read()
+        val_track = nfc_obj.read()
 
         if val_track:
             print(f'NFC_id: {val_track}')
-            print(f'NFC_msg: {text}')
         else:
             print("No NFC detected")
 

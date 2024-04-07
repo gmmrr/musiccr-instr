@@ -10,6 +10,7 @@ from component import knob
 from component import slider
 from component import nfc
 from api import music
+from component import button
 
 
 # ------------------------------
@@ -26,6 +27,9 @@ val_bpm = 3
 val_pitch = 3
 val_volume = 50
 val_track = 1
+
+pdspeaker = music.PDSpeaker()
+
 
 
 # ------------------------------
@@ -135,6 +139,8 @@ def nfc_thread():
             else:
                 print("No NFC detected")
 
+            e_track_update.set()
+
 
 
 def pdspeaker_thread():
@@ -146,6 +152,7 @@ def pdspeaker_thread():
     global e_bpm_update
     global e_pitch_update
     global e_volume_update
+    global pdspeaker
 
 
     c_pdspeaker_update = threading.Condition()
@@ -162,27 +169,44 @@ def pdspeaker_thread():
 
                 # Option 1. Update BPM
                 if e_bpm_update.is_set():
-
+                    pdspeaker.send_bpm(val_bpm)
                     e_bpm_update.clear()
 
 
                 # Option 2. Update Pitch
                 if e_pitch_update.is_set():
-
+                    pdspeaker.send_pitch(val_pitch)
                     e_pitch_update.clear()
 
 
                 # Option 3. Update Volume
                 if e_volume_update.is_set():
-
+                    pdspeaker.send_volume(val_volume)
                     e_volume_update.clear()
 
 
                 # Option 4. Update Track
                 if e_track_update.is_set():
-
+                    pdspeaker.send_track(val_track)
                     e_track_update.clear()
 
+
+def playbutton_thread():
+    '''
+
+    '''
+
+    global is_working
+    global pdspeaker
+
+
+    play_button = button.Button(pin = 40)
+
+
+    while True:
+
+        play_button.wait()
+        is_working = not is_working
 
 
 
@@ -209,6 +233,7 @@ def main():
     t_volume_knob = threading.Thread(target=volume_knob_thread)
     t_nfc = threading.Thread(target=nfc_thread)
     t_pdspeaker = threading.Thread(target=pdspeaker_thread)
+    t_playbutton = threading.Thread(target=playbutton_thread)
 
     # Step 2: Start Threads
     t_bpm_knob.start()
@@ -216,6 +241,7 @@ def main():
     t_volume_knob.start()
     t_nfc.start()
     t_pdspeaker.start()
+    t_playbutton.start()
 
     # Step 3: Wait for Threads to Finish
     t_bpm_knob.join()
@@ -223,6 +249,7 @@ def main():
     t_volume_knob.join()
     t_nfc.join()
     t_pdspeaker.join()
+    t_playbutton.join()
 
     # Step 4: Finish
     GPIO.cleanup()

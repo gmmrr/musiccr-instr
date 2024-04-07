@@ -21,8 +21,6 @@ class Slider():
             229, 232, 235, 238, 241, 244, 247, 250, 253, 256    # 91-100
         ]
 
-        self.last_state = self.state
-
 
     def get_state(self):
         '''
@@ -60,12 +58,4 @@ class Slider():
         Update the current state of the slider
         '''
         value = self.bus.read_byte(self.address)
-
         self.state = self.find_section(value)
-
-        # note that slider is always detecting
-        if self.state != self.last_state:
-            self.last_state = self.state
-            return True
-        else:
-            return False

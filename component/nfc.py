@@ -1,29 +1,18 @@
 from mfrc522 import MFRC522
 import time
-import threading
 
 
 class NFC:
     def __init__(self):
-
-        self.reader = MFRC522()
 
         self.trailer_block = 11
         self.key = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
         self.block_addrs = [8,9,10]
 
         self.id = None
+        self.uid = None
         self.text = ''  # it is not used actually
 
-
-    def wait(self):
-        '''
-        Hot wait until new nfc detected
-        '''
-        while True:
-            (status, _) = self.reader.Request(self.reader.PICC_REQIDL)
-            if status == self.reader.MI_OK:
-                break
 
 
     def parse(self, uid):
@@ -38,9 +27,9 @@ class NFC:
         Returns:
         - parsed id (int)
         '''
-        record_1 = []
-        record_2 = []
-        record_3 = []
+        record_1 = [136, 29, 240, 238, 139]
+        record_2 = [136, 29, 239, 238, 148]
+        record_3 = [136, 29, 238, 238, 149]
 
         if uid == record_1:
             return 1
@@ -52,8 +41,16 @@ class NFC:
             return 1
 
 
+    def get_id(self):
+        '''
+        Get the current id of the NFC tag
+        Returns:
+        - id (int): current id of the NFC tag
+        '''
+        return self.id, self.uid
 
-    def read(self):
+
+    def update(self):
         '''
         Read data from NFC tag
 
@@ -61,47 +58,39 @@ class NFC:
         - self.id (int): parsed id
         '''
 
-        # 0. wait until new nfc detected
-        t_wait = threading.Thread(self.wait())
-        t_wait.start()
-        t_wait.join()
-
-        print('NFC: Read')
-
+        reader = MFRC522()
 
         # 1. define status
-        (status, _) = self.reader.Request(self.reader.PICC_REQIDL)
-
-        if status != self.reader.MI_OK:
-            return None
-
+        (status, _) = reader.Request(reader.PICC_REQIDL)
+        if status != reader.MI_OK:
+            return 1, None
 
         # 2. decide id
-        (status, uid) = self.reader.Anticoll()
-        if status != self.reader.MI_OK:
-            return None
+        (status, uid) = reader.Anticoll()
+        if status != reader.MI_OK:
+            return 1, None
 
         # 3. make sure there are no multiple nfc detected
-        self.reader.SelectTag(uid)
-        status = self.reader.Authenticate(
-            self.reader.PICC_AUTHENT1A, self.trailer_block , self.key, uid)
+        # reader.SelectTag(uid)
+        # status = reader.Authenticate(reader.PICC_AUTHENT1A, self.trailer_block, self.key, uid)
+        # if status != reader.MI_OK:
+        #     return
+        # print("3")
 
         # 4. change id to accessible one
         self.id = self.parse(uid)
+        self.uid = uid
 
-        # 5. get text (or message) inside
-        if status == self.reader.MI_OK:
-            data = []
-            for block_num in self.block_addrs:
-                block = self.reader.ReadTag(block_num)
-                if block:
-                    data += block
-            if data:
-                self.text = ''.join(chr(i) for i in data)  # it is not uesd actually
+        # # 5. get text (or message) inside
+        # if status == reader.MI_OK:
+        #     data = []
+        #     for block_num in self.block_addrs:
+        #         block = reader.ReadTag(block_num)
+        #         if block:
+        #             data += block
+        #     if data:
+        #         self.text = ''.join(chr(i) for i in data)  # it is not uesd actually
 
         # 6. reset
         time.sleep(0.5)
-        self.reader.StopAuth()
-        self.e_nfc_detect.clear()
-
-        return self.id
+        reader.StopAuth()

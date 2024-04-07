@@ -1,29 +1,17 @@
 import RPi.GPIO as GPIO
-import math
-import threading
 
 class Knob():
     def __init__(self, clk_pin, dt_pin):
         self.clk_pin = clk_pin
         self.dt_pin = dt_pin
 
-        self.current_state = 50
-
-        self.e_rotate = threading.Event()
+        self.state = 50
+        self.clk_last_state = 50
 
         GPIO.setup(self.clk_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         GPIO.setup(self.dt_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-        GPIO.add_event_detect(self.clk_pin, GPIO.BOTH, callback=self.event_callback, bouncetime=50)
 
-
-    def event_callback(self, _):
-        '''
-        Set the event when the knob is rotated.
-
-        Returns:
-        - e_rotate (threading.Event): set
-        '''
-        self.e_rotate.set()
+        self.index = 0
 
 
     def get_state(self):
@@ -31,31 +19,24 @@ class Knob():
         Get the current state of the knob
 
         Returns:
-        - current_state (int): current state of the knob
+        - state (int): current state of the knob
         '''
-        return self.current_state
+        return self.state
 
 
     def update(self):
         '''
         Update the current state of the knob
         '''
-        # 0. wait until rotate
-        self.e_rotate.wait()
-
-        # 1. get value
         clk_state = GPIO.input(self.clk_pin)
         dt_state = GPIO.input(self.dt_pin)
 
-        # 2. change current_state
-        temp_state = self.current_state
-        temp_state += 1 if dt_state != clk_state else -1
+        if clk_state != self.clk_last_state:
+            self.state += 1 if dt_state != clk_state else -1
 
-        # 3. if current_state is not in an expected range
-        if temp_state > 100:
-            temp_state = 100
-        elif temp_state < 0:
-            temp_state = 0
+        if self.state > 100:
+            self.state = 100
+        elif self.state < 0:
+            self.state = 0
 
-        # 4. update current_state
-        self.current_state = temp_state
+        self.clk_last_state = clk_state

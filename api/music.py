@@ -43,8 +43,6 @@ class PDSpeaker:
         self.socket_pause.sendall(struct.pack('B', self.val_pause))
 
 
-
-
     def send_bpm(self, val):
         '''
         Send the value of BPM to Pure Data
@@ -95,6 +93,7 @@ class PDSpeaker:
         '''
         try:
             self.val_pause = val
+            print(val)
             self.socket_pause.sendall(struct.pack('B', self.val_pause))
         except ConnectionRefusedError:
             print("PDSpeaker: Connetion Failed")

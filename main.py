@@ -9,8 +9,8 @@ import time
 from component import knob
 from component import slider
 from component import nfc
-from api import music
 from component import button
+from api import music
 
 
 # ------------------------------
@@ -22,12 +22,11 @@ e_volume_update = threading.Event()
 e_track_update = threading.Event()
 e_button_update = threading.Event()
 
-val_bpm = 3
-val_pitch = 3
+val_bpm = 50
+val_pitch = 50
 val_volume = 50
 val_track = 1
-val_pause = 1
-
+val_pause = 1  # 0 means stop and 1 means play
 
 
 
@@ -116,11 +115,7 @@ def nfc_thread():
 
         val_track = nfc_obj.read()
 
-        if val_track:
-            print(f'NFC_id: {val_track}')
-        else:
-            print("No NFC detected")
-
+        print(f'NFC_id: {val_track}')
         e_track_update.set()
 
 

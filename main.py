@@ -281,7 +281,7 @@ def pdspeaker_thread():
 
 
         # Option 5. Update Pause
-        if (last_val_pause != val_pause) and val_pause == 1:
+        if (last_val_pause != val_pause):
             pdspeaker.send_pause(val_pause)
             # e_button_update.clear()
             last_val_pause = val_pause

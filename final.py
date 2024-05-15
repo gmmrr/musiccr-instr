@@ -1,5 +1,6 @@
 import RPi.GPIO as GPIO
 import time
+import subprocess
 
 from component import nfc
 
@@ -26,8 +27,14 @@ def main():
 
         # Step 2: Play the track
         if val_track != last_val_track:
-           # play
-           pass
+            if val_track == 1:
+                file_path = "src/sea.wav"
+            elif val_track == 2:
+                file_path = "src/city.wav"
+            else:
+                file_path = "src/forest.wav"
+
+            subprocess.run(['aplay', file_path])
 
         # Step 3: Update last value
         last_val_track = val_track

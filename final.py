@@ -1,8 +1,26 @@
 import RPi.GPIO as GPIO
 import time
 import subprocess
+import multiprocessing
+
 
 from component import nfc
+
+
+def nfc_read_thread(queue):
+    '''
+
+    '''
+    nfc_obj = nfc.NFC()
+
+    nfc_obj.update()
+
+    val_track, _ = nfc_obj.get_id()
+
+    val = queue.get()
+    val['val'] = val_track
+    queue.put(val)
+
 
 def main():
 
@@ -12,29 +30,40 @@ def main():
     #################
 
     val_track = 1
-    last_val_track = val_track
+    last_val_track = 1
 
-    nfc_obj = nfc.NFC()
+
+    cmd = "aplay src/sea.wav&"
+    subprocess.call([cmd], shell=True)
 
 
     while True:
 
         # Step 1: Get NFC ID
-        nfc_obj.update()
-        val_track, _ = nfc_obj.get_id()
-        if val_track == None:  # if no card is detected, then set it as previous one
+        queue = multiprocessing.Queue()
+        queue.put({'val': val_track})
+
+        t_read = multiprocessing.Process(target=nfc_read_thread, args=(queue, ))
+        t_read.start()
+        t_read.join(3)  # timesout = 3 seconds
+
+        val_track = queue.get()['val']
+        if val_track == None:
             val_track = last_val_track
+
 
         # Step 2: Play the track
         if val_track != last_val_track:
+            print(val_track, last_val_track)
             if val_track == 1:
-                file_path = "src/sea.wav"
+                cmd = "aplay src/sea.wav&"
             elif val_track == 2:
-                file_path = "src/city.wav"
+                cmd = "aplay src/city.wav&"
             else:
-                file_path = "src/forest.wav"
+                cmd = "aplay src/forest.wav&"
 
-            subprocess.run(['aplay', file_path])
+            subprocess.call (["pkill aplay"], shell=True)
+            subprocess.call([cmd], shell=True)
 
         # Step 3: Update last value
         last_val_track = val_track
@@ -43,6 +72,8 @@ def main():
     #################
     GPIO.cleanup()
     print("Instrument: End")
+
+
 
 
 

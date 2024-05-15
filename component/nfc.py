@@ -1,7 +1,6 @@
 from mfrc522 import MFRC522
 import time
 
-
 class NFC:
     def __init__(self):
 
@@ -69,17 +68,17 @@ class NFC:
         (status, uid) = reader.Anticoll()
         if status != reader.MI_OK:
             return 1, None
-
-        # 3. make sure there are no multiple nfc detected
         # reader.SelectTag(uid)
         # status = reader.Authenticate(reader.PICC_AUTHENT1A, self.trailer_block, self.key, uid)
         # if status != reader.MI_OK:
         #     return
-        # print("3")
 
         # 4. change id to accessible one
         self.id = self.parse(uid)
         self.uid = uid
+
+        print(self.uid)
+        print(self.id)
 
         # # 5. get text (or message) inside
         # if status == reader.MI_OK:
